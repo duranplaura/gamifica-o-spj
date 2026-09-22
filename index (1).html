@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gamificação Saint Paul Jr</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --surface: #ffffff;
+    --border: #e3e6ea;
+    --text: #16191d;
+    --muted: #666d78;
+    --accent: #1f4ed8;
+    --accent-soft: #eaefff;
+    --gold: #b8860b;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #101216;
+      --surface: #191c22;
+      --border: #2a2f38;
+      --text: #eceef1;
+      --muted: #9aa2ae;
+      --accent: #7c9cff;
+      --accent-soft: #1d2435;
+      --gold: #e0b44a;
+      --shadow: 0 1px 3px rgba(0,0,0,.4);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #101216;
+    --surface: #191c22;
+    --border: #2a2f38;
+    --text: #eceef1;
+    --muted: #9aa2ae;
+    --accent: #7c9cff;
+    --accent-soft: #1d2435;
+    --gold: #e0b44a;
+    --shadow: 0 1px 3px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+  }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 16px 64px;
+  }
+
+  header { margin-bottom: 32px; }
+
+  h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin: 0 0 6px;
+    letter-spacing: -0.02em;
+  }
+
+  .sub { color: var(--muted); margin: 0; font-size: .95rem; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .card .label {
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .card .value {
+    font-size: 1.6rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 1.05rem;
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+  }
+
+  ol.rank { list-style: none; margin: 0; padding: 0; }
+
+  ol.rank li {
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  ol.rank li:last-child { border-bottom: none; }
+
+  .pos {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: .85rem;
+    font-weight: 650;
+  }
+
+  ol.rank li:first-child .pos {
+    background: color-mix(in srgb, var(--gold) 18%, transparent);
+    color: var(--gold);
+  }
+
+  .who { min-width: 0; }
+  .nome { font-weight: 560; }
+  .area { color: var(--muted); font-size: .84rem; }
+
+  .bar {
+    height: 5px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 7px;
+  }
+
+  .bar span {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 99px;
+  }
+
+  .pts { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
+  .pts small { font-weight: 400; color: var(--muted); font-size: .75rem; margin-left: 2px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+
+  th, td {
+    text-align: left;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    font-size: .74rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+  footer {
+    color: var(--muted);
+    font-size: .84rem;
+    text-align: center;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Gamificação Saint Paul Jr</h1>
+    <p class="sub">Ranking de pontos do mandato 2026/2027. Dados de exemplo.</p>
+  </header>
+
+  <section class="cards">
+    <div class="card">
+      <div class="label">Membros ativos</div>
+      <div class="value" id="totalMembros">0</div>
+    </div>
+    <div class="card">
+      <div class="label">Pontos no mês</div>
+      <div class="value" id="totalPontos">0</div>
+    </div>
+    <div class="card">
+      <div class="label">Média por membro</div>
+      <div class="value" id="mediaPontos">0</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Ranking</h2>
+    <ol class="rank" id="ranking"></ol>
+  </section>
+
+  <section class="panel">
+    <h2>Como pontuar</h2>
+    <table>
+      <thead>
+        <tr><th>Atividade</th><th class="num">Pontos</th></tr>
+      </thead>
+      <tbody id="regras"></tbody>
+    </table>
+  </section>
+
+  <footer>Atualizado manualmente no arquivo <code>dados.js</code></footer>
+
+</div>
+
+<script src="dados.js"></script>
+<script>
+  const ranking = [...membros].sort((a, b) => b.pontos - a.pontos);
+  const maior = ranking.length ? ranking[0].pontos : 0;
+  const total = ranking.reduce((soma, m) => soma + m.pontos, 0);
+
+  document.getElementById('totalMembros').textContent = ranking.length;
+  document.getElementById('totalPontos').textContent = total;
+  document.getElementById('mediaPontos').textContent =
+    ranking.length ? Math.round(total / ranking.length) : 0;
+
+  document.getElementById('ranking').innerHTML = ranking.map((m, i) => `
+    <li>
+      <div class="pos">${i + 1}</div>
+      <div class="who">
+        <div class="nome"></div>
+        <div class="area"></div>
+        <div class="bar"><span style="width:${maior ? (m.pontos / maior) * 100 : 0}%"></span></div>
+      </div>
+      <div class="pts">${m.pontos}<small>pts</small></div>
+    </li>
+  `).join('');
+
+  document.querySelectorAll('#ranking .nome').forEach((el, i) => el.textContent = ranking[i].nome);
+  document.querySelectorAll('#ranking .area').forEach((el, i) => el.textContent = ranking[i].area);
+
+  document.getElementById('regras').innerHTML = regras.map(r => `
+    <tr><td></td><td class="num">+${r.pontos}</td></tr>
+  `).join('');
+
+  document.querySelectorAll('#regras td:first-child').forEach((el, i) => el.textContent = regras[i].atividade);
+</script>
+</body>
+</html>
