@@ -917,6 +917,13 @@ h3 { font-size: 15px; }
 @media print { .topo, #gestao { display: none !important; } }
 
 section.secao:has(> .cartao > .mentor) { display: none; }
+
+.podio { grid-template-columns: repeat(4, 1fr); }
+.podio__retrato[data-lugar="↑"] { --medalha: #1baf7a; }
+.podio__item--evo { border-color: rgba(27, 175, 122, .45); }
+.podio__delta { color: var(--bom-texto); font-weight: 700; }
+@media (max-width: 1000px) { .podio { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .podio { grid-template-columns: 1fr; } }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 </head>
@@ -2423,6 +2430,30 @@ SPJ.Dominio = (function () {
       });
   }
 
+  /* O destaque de evolução: a maior alta da nota do mês em relação ao mês
+     anterior. Só entra quem tem nota nos dois meses e subiu. Empate
+     desempata pela nota mais alta e depois pelo nome. */
+  function evolucao(est, regras, mes) {
+    if (mes < 1) return null;
+    const porNome = {};
+    est.membros.forEach((m) => { porNome[m.nome] = m; });
+    const lista = Object.keys(est.medias).map((nome) => {
+      const s = est.medias[nome];
+      const atual = s[mes], antes = s[mes - 1];
+      if (vazio(atual) || vazio(antes) || !(atual > 0) || !(antes > 0)) return null;
+      return { nome: nome, media: atual, anterior: antes, delta: arredonda(atual - antes, 2) };
+    }).filter((d) => d && d.delta > 0)
+      .sort((a, b) => (b.delta - a.delta) || (b.media - a.media) || a.nome.localeCompare(b.nome, 'pt-BR'));
+    const d = lista[0];
+    if (!d) return null;
+    const rank = rankingDe(d.media, regras);
+    const membro = porNome[d.nome] || { nome: d.nome, foto: '' };
+    return Object.assign(d, {
+      foto: fotoDe(membro), iniciais: iniciais(d.nome),
+      ranking: rank && rank.nome, mes_anterior: P.MESES[mes - 1]
+    });
+  }
+
   /* -------------------------------------------------------------- critérios */
 
   function criteriosDoMembro(est, nome, mes) {
@@ -2754,6 +2785,7 @@ SPJ.Dominio = (function () {
       ranking: rank && { id: rank.id, nome: rank.nome },
       trofeus: trofeus(media, regras),
       destaques: destaques(est, regras, mes),
+      evolucao: evolucao(est, regras, mes),
       criterios: criteriosDoMembro(est, nome, mes),
       penalidades: penalidadesDoMembro(est, nome, mes, cfg.regras.penalidades, cfg.regras_texto),
       advertencias: advertencias(est, nome, mes, cfg.regras.penalidades),
@@ -4310,7 +4342,7 @@ function montarLogo(alvo, variante = 'auto') {
   }
 
   function desenharDestaques() {
-    $('destaques-mes').textContent = `Maiores médias de ${dados.mes_referencia.nome}`;
+    $('destaques-mes').textContent = `Maiores médias de ${dados.mes_referencia.nome} e quem mais evoluiu`;
 
     $('destaques').innerHTML = [0, 1, 2].map((i) => {
       const lugar = i + 1;
@@ -4337,7 +4369,32 @@ function montarLogo(alvo, variante = 'auto') {
             <p class="podio__media">${num(d.media)}<span> / 4</span>${d.ranking ? ` · ${d.ranking}` : ''}</p>
           </div>
         </article>`;
-    }).join('');
+    }).join('') + cartaoEvolucao();
+  }
+
+  /* O quarto cartão: quem mais evoluiu, mesmo fora do pódio. */
+  function cartaoEvolucao() {
+    const e = dados.evolucao;
+    if (!e) {
+      return `
+        <article class="podio__item podio__item--vazio podio__item--evo">
+          ${retrato('↑', null, '—', null)}
+          <div>
+            <p class="podio__posicao">Maior evolução</p>
+            <p class="podio__nome">Ninguém subiu a nota ainda</p>
+          </div>
+        </article>`;
+    }
+    const souEu = e.nome === dados.membro.nome;
+    return `
+      <article class="podio__item podio__item--evo" ${souEu ? 'data-eu="1"' : ''}>
+        ${retrato('↑', e.foto, e.iniciais, e.nome)}
+        <div>
+          <p class="podio__posicao">Maior evolução${souEu ? ' · você' : ''}</p>
+          <p class="podio__nome">${e.nome}</p>
+          <p class="podio__media"><b class="podio__delta">+${num(e.delta)}</b> vs. ${e.mes_anterior} · ${num(e.media)}<span> / 4</span></p>
+        </div>
+      </article>`;
   }
 
   function desenharPlacas() {
