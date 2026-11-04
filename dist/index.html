@@ -928,6 +928,8 @@ h3 { font-size: 15px; }
 .g-notas--3 { grid-template-columns: repeat(3, 1fr); max-width: 360px; }
 .g-crit--dep { padding: 10px 0; }
 
+.g-legado { margin-top: 16px; padding: 14px 16px; border: 1px dashed var(--eixo); border-radius: var(--raio); background: var(--superficie-2); }
+
 section.secao:has(> .cartao > .mentor) { display: none; }
 
 .podio { grid-template-columns: repeat(4, 1fr); }
@@ -3392,12 +3394,25 @@ SPJ.Gestao = (function () {
   let textosMes = [];          // Parte 2 (textos do avaliador) do mês
   let autoMes = [];            // Parte 1 (autoavaliação) do mês
   let rascunhoDepto = [];      // 5 notas de 1 a 3 da Parte 1
+  let legadoMes = [];          // notas do modelo antigo (planilha, 1 a 5)
+  let mediasLegMes = [];       // médias do modelo antigo
+
+  /* O histórico da planilha: os 4 critérios antigos, na escala de 1 a 5. */
+  function legadoHTML(notas, mediaLeg) {
+    if (!notas.length && !mediaLeg) return '';
+    const conv = mediaLeg ? 1 + (Number(mediaLeg.media) - 1) * 3 / ((mediaLeg.escala_max || 5) - 1) : null;
+    return `<div class="g-legado"><p class="g-sub" style="margin-top:0">Avaliação no modelo antigo (planilha, escala de 1 a 5)</p>
+      ${notas.length ? `<table class="tabela-dados"><tbody>${notas.map((n) => `<tr><th scope="row">${esc(n.criterio)}</th><td>${num(Number(n.nota), 0)} / 5</td></tr>`).join('')}</tbody></table>` : ''}
+      ${mediaLeg ? `<p class="miudo" style="margin-top:8px">Média do mês: <b>${num(Number(mediaLeg.media))} / 5</b>, que equivale a <b>${num(conv)} / 4</b> no ranking.</p>` : ''}</div>`;
+  }
 
   async function abrirAvaliacoes() {
-    [notasMes, textosMes, autoMes] = await Promise.all([
+    [notasMes, textosMes, autoMes, legadoMes, mediasLegMes] = await Promise.all([
       q(sb.from('avaliacoes').select('*').eq('ano', ano).eq('mes', mes)),
       q(sb.from('avaliacoes_textos').select('*').eq('ano', ano).eq('mes', mes)),
-      q(sb.from('autoavaliacoes').select('*').eq('ano', ano).eq('mes', mes))
+      q(sb.from('autoavaliacoes').select('*').eq('ano', ano).eq('mes', mes)),
+      q(sb.from('avaliacoes_legado').select('*').eq('ano', ano).eq('mes', mes).order('ordem')),
+      q(sb.from('medias_legado').select('*').eq('ano', ano).eq('mes', mes))
     ]);
     desenharPessoas();
     if (selecionado && !avaliaveis().some((a) => a.id === selecionado.id)) selecionado = null;
@@ -3428,8 +3443,11 @@ SPJ.Gestao = (function () {
       const qtd = Object.keys(n).filter((k) => criteriosAtivos().some((c) => String(c.id) === k)).length;
       const ok = qtd >= total;
       if (ok) feitos++;
+      const leg = mediasLegMes.find((m) => m.associado_id === a.id);
+      if (!qtd && leg) feitos++;
       const chip = ok ? `<span class="g-chip g-chip--ok">${num(mediaDe(n))}</span>`
-        : (qtd ? `<span class="g-chip g-chip--pend">${qtd}/${total}</span>` : '<span class="g-chip g-chip--pend">pendente</span>');
+        : (qtd ? `<span class="g-chip g-chip--pend">${qtd}/${total}</span>`
+          : (leg ? `<span class="g-chip g-chip--ok" title="modelo antigo, escala de 1 a 5">${num(Number(leg.media))} / 5</span>` : '<span class="g-chip g-chip--pend">pendente</span>'));
       return `<li><button class="g-pessoa" data-id="${a.id}" ${selecionado && selecionado.id === a.id ? 'aria-current="true"' : ''}>
         <span>${esc(a.nome)}</span>${chip}</button></li>`;
     }).join('') || '<li class="miudo">Nenhum associado da sua área para avaliar.</li>';
@@ -3494,6 +3512,7 @@ SPJ.Gestao = (function () {
         ${campoTexto('g-f-comper', 'Outros comentários sobre o período', au.comentarios_periodo, 2)}
       </details>
 
+      ${legadoHTML(legadoMes.filter((x) => x.associado_id === id), mediasLegMes.find((x) => x.associado_id === id))}
       <div class="g-parte g-parte--aberta">
         <p class="g-titulo2"><span class="rotulo">Parte 2 · preenchida pelo avaliador / diretoria</span> Avaliação de desempenho</p>
         <p class="miudo">${F.CONCEITOS.map((c, i) => `<b>${i + 1}</b> ${esc(c)}`).join('<br>')}</p>
@@ -3652,20 +3671,22 @@ SPJ.Gestao = (function () {
     }
     caixa.innerHTML = '<p class="miudo">Carregando…</p>';
     try {
-      const [auto, textos, notas, crits, faixas] = await Promise.all([
+      const [auto, textos, notas, crits, faixas, leg, legMed] = await Promise.all([
         q(sb.from('autoavaliacoes').select('*').eq('associado_id', eu.id).eq('ano', minhaAno).eq('mes', minhaMes)),
         q(sb.from('avaliacoes_textos').select('*').eq('associado_id', eu.id).eq('ano', minhaAno).eq('mes', minhaMes)),
         q(sb.from('avaliacoes').select('*').eq('associado_id', eu.id).eq('ano', minhaAno).eq('mes', minhaMes)),
         q(sb.from('criterios').select('*').eq('ativo', true).order('ordem')),
-        q(sb.from('faixas_ranking').select('*').order('minimo', { ascending: false }))
+        q(sb.from('faixas_ranking').select('*').order('minimo', { ascending: false })),
+        q(sb.from('avaliacoes_legado').select('*').eq('associado_id', eu.id).eq('ano', minhaAno).eq('mes', minhaMes).order('ordem')),
+        q(sb.from('medias_legado').select('*').eq('associado_id', eu.id).eq('ano', minhaAno).eq('mes', minhaMes))
       ]);
-      desenharMinha(auto[0] || {}, textos[0] || null, notas, crits, faixas);
+      desenharMinha(auto[0] || {}, textos[0] || null, notas, crits, faixas, leg, legMed[0]);
     } catch (e) {
       caixa.innerHTML = `<p class="miudo">Não foi possível carregar: ${esc(e.message)}</p>`;
     }
   }
 
-  function desenharMinha(au, tx, notas, crits, faixas) {
+  function desenharMinha(au, tx, notas, crits, faixas, leg, legMed) {
     const F = SPJ.Formulario;
     minhaDepto = Array.isArray(au.depto) ? au.depto.slice() : [];
     const porCrit = {};
@@ -3709,7 +3730,7 @@ SPJ.Gestao = (function () {
           ${tx ? [['Outras características positivas', tx.positivas], ['Outras características a serem desenvolvidas', tx.desenvolver],
                   ['Inovação', tx.inovacao], ['Outros comentários', tx.comentarios]].filter((x) => x[1])
             .map((x) => `<p class="g-sub">${x[0]}</p><p class="g-texto">${esc(x[1]).replace(/\n/g, '<br>')}</p>`).join('') : ''}`
-        : '<p class="miudo">A diretoria ainda não lançou a sua avaliação deste mês.</p>'}
+        : ((leg && leg.length) || legMed ? legadoHTML(leg || [], legMed) : '<p class="miudo">A diretoria ainda não lançou a sua avaliação deste mês.</p>')}
         <div class="g-linha" style="margin-top:16px">
           <button class="botao botao--fantasma g-mini" id="m-word">Baixar formulário em Word</button>
           <button class="botao botao--fantasma g-mini" id="m-pdf">Baixar em PDF</button>
