@@ -842,7 +842,90 @@ h3 { font-size: 15px; }
   .advertencia__corpo { padding: 16px 18px 18px; }
   .reg__indice { gap: 6px; }
 }
+
+/* ================================================================ GESTÃO = */
+
+.g-periodo { display: flex; align-items: center; gap: 8px; }
+.g-select, .g-input {
+  font: inherit; font-size: 14px; color: var(--tinta);
+  background: var(--superficie-2); border: 1px solid var(--borda);
+  border-radius: var(--raio); padding: 9px 10px;
+}
+.g-select:focus, .g-input:focus { outline: none; border-color: var(--petroleo); box-shadow: 0 0 0 3px rgba(24,72,72,.14); }
+.g-recado { min-height: 20px; margin: 14px 0 0; font-size: 13.5px; }
+.g-recado[data-tipo="ok"] { color: var(--bom-texto); }
+.g-recado[data-tipo="erro"] { color: var(--critico-texto); }
+.g-mini { padding: 9px 12px; font-size: 13px; }
+
+.g-aval { display: grid; grid-template-columns: 280px 1fr; gap: 16px; margin-top: 16px; align-items: start; }
+.g-pessoas { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 4px; }
+.g-pessoa {
+  width: 100%; display: flex; align-items: center; gap: 8px; text-align: left;
+  font: inherit; font-size: 13.5px; color: var(--tinta); cursor: pointer;
+  background: transparent; border: 1px solid transparent; border-radius: var(--raio); padding: 9px 10px;
+}
+.g-pessoa:hover { background: var(--superficie-2); }
+.g-pessoa[aria-current="true"] { border-color: var(--petroleo); background: var(--superficie-2); }
+.g-pessoa span:first-child { flex: 1; }
+.g-chip { font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 10px; white-space: nowrap; }
+.g-chip--ok { background: rgba(12,163,12,.12); color: var(--bom-texto); }
+.g-chip--pend { background: rgba(201,169,97,.18); color: var(--dourado-texto); }
+
+.g-crit { padding: 16px 0; border-top: 1px solid var(--grade); }
+.g-crit:first-of-type { border-top: 0; }
+.g-crit__topo { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.g-crit__topo h4 { font-size: 15px; margin: 0; flex: 1; min-width: 180px; }
+.g-crit__avalia { font-size: 13px; color: var(--tinta-mud); margin: 4px 0 10px; }
+.g-notas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.g-nota {
+  font: inherit; cursor: pointer; text-align: left; padding: 10px 11px;
+  border: 1px solid var(--borda); border-radius: var(--raio);
+  background: var(--superficie); color: var(--tinta); line-height: 1.25;
+}
+.g-nota b { display: block; font-size: 18px; }
+.g-nota small { font-size: 11.5px; color: var(--tinta-mud); }
+.g-nota:hover { border-color: var(--petroleo-300); }
+.g-nota[aria-pressed="true"] { background: var(--petroleo); border-color: var(--petroleo); color: #fff; }
+.g-nota[aria-pressed="true"] small { color: rgba(255,255,255,.8); }
+.g-desc { font-size: 13px; color: var(--tinta-2); margin: 9px 0 0; min-height: 18px; }
+
+.g-rodape {
+  position: sticky; bottom: 0; z-index: 2; margin: 8px -22px -20px; padding: 14px 22px;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  background: var(--superficie); border-top: 1px solid var(--borda);
+  border-radius: 0 0 var(--raio-lg) var(--raio-lg);
+}
+.g-rodape__media { flex: 1; font-size: 14px; }
+.g-rodape__media b { font-size: 22px; color: var(--petroleo); }
+:root[data-tema="escuro"] .g-rodape__media b { color: var(--dourado); }
+
+.g-rolagem { overflow-x: auto; }
+.g-tabela td, .g-tabela th { vertical-align: middle; }
+.g-tabela input[type="number"] { width: 72px; }
+.g-tabela .g-input, .g-tabela .g-select { padding: 6px 8px; font-size: 13px; }
+.g-linha { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.g-linha label { display: grid; gap: 6px; font-size: 12px; font-weight: 500; letter-spacing: .04em; color: var(--tinta-2); }
+.g-x { background: none; border: 0; cursor: pointer; color: var(--critico-texto); font-size: 13px; }
+
+#abrir-gestao[hidden] { display: none; }
+
+@media (max-width: 820px) {
+  .g-aval { grid-template-columns: 1fr; }
+  .g-notas { grid-template-columns: repeat(2, 1fr); }
+  .secao__cabeca { flex-wrap: wrap; }
+}
+@media print { .topo, #gestao { display: none !important; } }
+
+section.secao:has(> .cartao > .mentor) { display: none; }
+
+.podio { grid-template-columns: repeat(4, 1fr); }
+.podio__retrato[data-lugar="↑"] { --medalha: #1baf7a; }
+.podio__item--evo { border-color: rgba(27, 175, 122, .45); }
+.podio__delta { color: var(--bom-texto); font-weight: 700; }
+@media (max-width: 1000px) { .podio { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .podio { grid-template-columns: 1fr; } }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 
@@ -868,8 +951,8 @@ h3 { font-size: 15px; }
     <section class="login__form">
       <div class="login__caixa">
         <p class="rotulo">Acesso do associado</p>
-        <h1 style="margin-top:8px">Entrar na plataforma</h1>
-        <p class="subtitulo">Use o e-mail cadastrado na diretoria.</p>
+        <h1 style="margin-top:8px" id="login-titulo">Entrar na plataforma</h1>
+        <p class="subtitulo" id="login-sub">Use o e-mail cadastrado na diretoria.</p>
 
         <form id="form" novalidate>
           <div class="campo">
@@ -884,6 +967,12 @@ h3 { font-size: 15px; }
                    required placeholder="••••••••">
           </div>
 
+          <div class="campo" id="campo-senha2" hidden>
+            <label for="senha2">Repita a senha</label>
+            <input id="senha2" name="senha2" type="password" autocomplete="new-password"
+                   placeholder="••••••••">
+          </div>
+
           <div class="aviso" id="erro" role="alert">
             <span aria-hidden="true">!</span><span id="erro-texto"></span>
           </div>
@@ -891,9 +980,8 @@ h3 { font-size: 15px; }
           <button class="botao botao--largo" type="submit" id="enviar">Entrar</button>
         </form>
 
-        <p class="miudo" style="margin-top:22px">
-          Esqueceu a senha? Procure a diretoria de Administração e Finanças.
-        </p>
+        <p class="miudo" style="margin-top:22px"><a href="#" id="modo-login" style="color:var(--petroleo);font-weight:700">Primeiro acesso? Crie sua senha</a></p>
+        <p class="miudo" style="margin-top:8px">Esqueceu a senha? Procure a presidência.</p>
       </div>
     </section>
   </main>
@@ -911,6 +999,7 @@ h3 { font-size: 15px; }
     <strong id="topo-nome">—</strong>
     <span id="topo-atualizado"></span>
   </div>
+  <button class="botao botao--fantasma" id="abrir-gestao" hidden style="padding:9px 15px;font-size:13.5px">Gestão</button>
   <button class="icone-botao" id="tema" title="Alternar tema claro/escuro" aria-label="Alternar tema">
     <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6">
       <circle cx="10" cy="10" r="4"/><path d="M10 1v2M10 17v2M1 10h2M17 10h2M3.6 3.6l1.4 1.4M15 15l1.4 1.4M16.4 3.6L15 5M5 15l-1.4 1.4"/>
@@ -921,7 +1010,7 @@ h3 { font-size: 15px; }
 
 <main class="pagina" id="conteudo">
 
-  <div id="carregando" class="carregando">Carregando seus dados da planilha…</div>
+  <div id="carregando" class="carregando">Carregando seus dados…</div>
 
   <div id="app" hidden>
 
@@ -935,7 +1024,7 @@ h3 { font-size: 15px; }
             <span class="patente__nome" id="ranking-nome">—</span>
           </div>
 
-          <div class="figura-heroi" id="media-valor">—<span> / 5</span></div>
+          <div class="figura-heroi" id="media-valor">—<span> / 4</span></div>
           <p class="heroi__nota" id="media-nota"></p>
 
           <div class="heroi__proximo" id="proximo-nivel"></div>
@@ -975,9 +1064,7 @@ h3 { font-size: 15px; }
 
       <div class="vazio" id="sem-avaliacao" hidden>
         <h3>Você ainda não tem avaliação registrada</h3>
-        <p>Seu nome não aparece nas abas de avaliação da planilha deste mês. Isso é o
-          esperado para a diretoria e para quem entrou há pouco. Assim que a primeira
-          avaliação for lançada, seus resultados aparecem aqui.</p>
+        <p>Ainda não há avaliação sua lançada neste ano. Isso é o esperado para a diretoria e para quem entrou há pouco. Assim que a primeira avaliação for lançada, seus resultados aparecem aqui.</p>
       </div>
 
       <section class="secao" id="secao-resultados">
@@ -990,7 +1077,7 @@ h3 { font-size: 15px; }
       <section class="secao" id="secao-grafico">
         <div class="cartao">
           <div class="grafico__topo">
-            <h3>Evolução por critério</h3>
+            <h3>Evolução da nota do mês</h3>
             <div class="legenda" id="legenda"></div>
             <button class="botao botao--fantasma" id="ver-tabela"
                     style="padding:7px 13px;font-size:12.5px">Ver tabela</button>
@@ -1095,7 +1182,7 @@ h3 { font-size: 15px; }
       <section class="secao">
         <div class="secao__cabeca">
           <h2>Como você é avaliado</h2>
-          <p class="miudo">Nota de 1 a 5 em cada critério, todo mês</p>
+          <p class="miudo">Nota de 1 a 4 em cada critério, todo mês</p>
         </div>
         <div class="rubrica" id="rubrica"></div>
       </section>
@@ -1122,6 +1209,129 @@ h3 { font-size: 15px; }
         <p class="subtitulo">Cada nota nesta plataforma é o trabalho de gente que escolheu
           aprender fazendo. O ranking é só a forma de reconhecer isso.</p>
       </div>
+    </div>
+  </section>
+</main>
+<!-- ====================================================== tela: gestão ==== -->
+<main class="pagina" id="gestao" hidden>
+  <section class="secao">
+    <div class="secao__cabeca">
+      <div style="flex:1">
+        <p class="rotulo">Área da diretoria</p>
+        <h2 style="margin-top:6px">Gestão</h2>
+        <p class="miudo" id="g-quem"></p>
+      </div>
+      <div class="g-periodo">
+        <label class="miudo" for="g-mes">Mês</label>
+        <select id="g-mes" class="g-select"></select>
+        <select id="g-ano" class="g-select"></select>
+      </div>
+    </div>
+
+    <div class="abas" role="tablist" aria-label="Seções da gestão">
+      <button class="aba" role="tab" data-g="avaliacoes" aria-selected="true">Avaliações</button>
+      <button class="aba" role="tab" data-g="penalidades" aria-selected="false">Penalidades</button>
+      <button class="aba" role="tab" data-g="xp" aria-selected="false">XP</button>
+      <button class="aba" role="tab" data-g="ocorrencias" aria-selected="false">Ocorrências</button>
+      <button class="aba" role="tab" data-g="loja" aria-selected="false" data-presidencia="1">Loja</button>
+      <button class="aba" role="tab" data-g="associados" aria-selected="false" data-presidencia="1">Associados</button>
+    </div>
+
+    <div class="g-recado" id="g-recado" role="status" aria-live="polite"></div>
+
+    <!-- avaliações -->
+    <div class="painel" data-gp="avaliacoes">
+      <div class="g-aval">
+        <aside class="cartao g-lista">
+          <div class="cartao__corpo">
+            <p class="rotulo">Associados</p>
+            <p class="miudo" id="g-progresso" style="margin-top:4px"></p>
+            <ul class="g-pessoas" id="g-pessoas"></ul>
+            <button class="botao botao--fantasma g-mini" id="g-branco" style="margin-top:14px;width:100%">Formulário em branco (PDF)</button>
+          </div>
+        </aside>
+        <section class="cartao g-form">
+          <div class="cartao__corpo" id="g-form">
+            <div class="vazio" style="margin:0"><h3>Escolha um associado</h3>
+              <p>Selecione alguém na lista ao lado para lançar ou revisar a avaliação do mês.</p></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- penalidades -->
+    <div class="painel" data-gp="penalidades" hidden>
+      <div class="cartao"><div class="cartao__corpo">
+        <p class="miudo" style="margin-bottom:12px">Quantidade no mês selecionado. Faltas e atrasos são os não justificados, como no Regimento.</p>
+        <div class="g-rolagem"><table class="tabela-dados g-tabela" id="g-pen"></table></div>
+        <button class="botao" id="g-pen-salvar" style="margin-top:16px">Salvar penalidades</button>
+      </div></div>
+    </div>
+
+    <!-- XP -->
+    <div class="painel" data-gp="xp" hidden>
+      <div class="cartao"><div class="cartao__corpo">
+        <form class="g-linha" id="g-xp-form">
+          <label>Associado<select class="g-select" id="g-xp-assoc" required></select></label>
+          <label>Objetivo<select class="g-select" id="g-xp-obj" required></select></label>
+          <label>Ocorrências<input class="g-input" id="g-xp-qtd" type="number" min="1" value="1" required style="width:90px"></label>
+          <label>Data<input class="g-input" id="g-xp-data" type="date" required></label>
+          <label style="flex:1;min-width:180px">Observação<input class="g-input" id="g-xp-obs" type="text" placeholder="opcional"></label>
+          <button class="botao" type="submit">Lançar <span id="g-xp-total"></span></button>
+        </form>
+      </div></div>
+      <div class="cartao" style="margin-top:14px"><div class="cartao__corpo">
+        <p class="rotulo">Lançamentos do mês</p>
+        <div class="g-rolagem"><table class="tabela-dados g-tabela" id="g-xp-lista"></table></div>
+      </div></div>
+    </div>
+
+    <!-- ocorrências -->
+    <div class="painel" data-gp="ocorrencias" hidden>
+      <div class="cartao"><div class="cartao__corpo">
+        <form class="g-linha" id="g-oc-form">
+          <label>Associado<select class="g-select" id="g-oc-assoc" required></select></label>
+          <label>Data<input class="g-input" id="g-oc-data" type="date" required></label>
+          <label>Tipo<select class="g-select" id="g-oc-tipo">
+            <option>Falta justificada</option><option>Atraso justificado</option>
+            <option>Advertência</option><option>Elogio</option><option>Outro</option>
+          </select></label>
+          <label style="flex:1;min-width:200px">Justificativa<input class="g-input" id="g-oc-just" type="text"></label>
+          <button class="botao" type="submit">Registrar</button>
+        </form>
+      </div></div>
+      <div class="cartao" style="margin-top:14px"><div class="cartao__corpo">
+        <p class="rotulo">Ocorrências do mês</p>
+        <div class="g-rolagem"><table class="tabela-dados g-tabela" id="g-oc-lista"></table></div>
+      </div></div>
+    </div>
+
+    <!-- loja -->
+    <div class="painel" data-gp="loja" hidden>
+      <div class="cartao"><div class="cartao__corpo">
+        <p class="rotulo">Resgates</p>
+        <div class="g-rolagem"><table class="tabela-dados g-tabela" id="g-compras"></table></div>
+      </div></div>
+      <div class="cartao" style="margin-top:14px"><div class="cartao__corpo">
+        <p class="rotulo">Produtos</p>
+        <p class="miudo" style="margin:4px 0 12px">Estoque vazio = sem controle. Por pessoa vazio = sem limite.</p>
+        <div class="g-rolagem"><table class="tabela-dados g-tabela" id="g-produtos"></table></div>
+      </div></div>
+    </div>
+
+    <!-- associados -->
+    <div class="painel" data-gp="associados" hidden>
+      <div class="cartao"><div class="cartao__corpo">
+        <p class="miudo" style="margin-bottom:12px">Diretor avalia e lança dados só da própria área. Presidência vê e lança tudo. "No ranking" desmarcado tira a pessoa da avaliação mensal.</p>
+        <div class="g-rolagem"><table class="tabela-dados g-tabela" id="g-assoc"></table></div>
+        <form class="g-linha" id="g-assoc-novo" style="margin-top:18px">
+          <label style="flex:1;min-width:180px">Nome<input class="g-input" id="g-n-nome" required></label>
+          <label style="flex:1;min-width:200px">E-mail<input class="g-input" id="g-n-email" type="email" required></label>
+          <label>Área<input class="g-input" id="g-n-area" list="g-areas" style="width:130px"></label>
+          <button class="botao" type="submit">Adicionar associado</button>
+        </form>
+        <datalist id="g-areas"></datalist>
+      </div></div>
     </div>
   </section>
 </main>
@@ -1491,25 +1701,13 @@ h3 { font-size: 15px; }
 window.SPJ = window.SPJ || {};
 
 SPJ.config = {
-  planilha_id: '1qH_qJhhJFjQZ_YV2N9ykFdbhVcdv03CEOilg9KIhJbI',
+  /* Banco de dados (Supabase). A chave publicável pode ficar no site: quem
+     protege os dados são as regras de acesso do banco (RLS). */
+  supabase_url: 'https://lxthllmhchjijswtzboo.supabase.co',
+  supabase_chave: 'sb_publishable_5HYwLye_WR6_8frFVCa0Qw_Zrzggt4Y',
 
-  /* Usados só quando o site roda fora do Apps Script (host estático), lendo a
-     planilha pelo endpoint público de exportação CSV. */
-  abas: {
-    login: 266852349,
-    medias: 701941896,
-    criterios: 2003669381,
-    rubrica: 1067386858,
-    penalidades: 37878277,
-    loja: 224659742,
-    xp: 1965692352,
-    ocorrencias: 110924364,
-    rankings: 1625631329
-  },
-
-  /* Ponte de escrita/login. Dentro do Apps Script isto é ignorado: lá a
-     conversa é direta com a planilha, sem rede e sem token. */
-  ponte: 'https://script.google.com/macros/s/AKfycbx7o3zaoT1lcq_HapDBkUX4IraXyND066pk-5I-Ifma5W53uOhBQ2fiTWLDwqQNx1UBtg/exec',
+  /* Escala da avaliação: cada critério vale de 1 a 4. */
+  escala_max: 4,
 
   /* De quanto em quanto tempo o site confere a planilha, em segundos.
      Só roda com a aba visível. */
@@ -1517,7 +1715,7 @@ SPJ.config = {
 
   /* Faixas que ainda não existem na aba RANKING. */
   rankings_extras: [
-    { id: 'diamante', nome: 'Diamante', minimo: 5.0,
+    { id: 'diamante', nome: 'Diamante', minimo: 4.0,
       descricao: 'Mês perfeito: nota máxima em todos os critérios.' }
   ],
 
@@ -1955,10 +2153,135 @@ SPJ.Dominio = (function () {
     return Math.round(n * f) / f;
   };
 
+  /* --------------------------------------------------------- do Supabase */
+
+  /* As linhas do banco -> o mesmo estado que a planilha produzia. Assim
+     todo o resto (ranking, troféus, penalidades, loja, XP) continua igual. */
+  function dataBR(iso) {
+    const t = texto(iso);
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(t);
+    return m ? m[3] + '/' + m[2] + '/' + m[1] : t;
+  }
+
+  function estadoSupabase(d, cfg) {
+    const ativos = d.associados.filter((a) => a.ativo);
+    const porId = {};
+    d.associados.forEach((a) => { porId[a.id] = a; });
+    const nomeDe = (id) => (porId[id] ? porId[id].nome : null);
+    const doze = () => new Array(12).fill(null);
+
+    const membros = ativos.map((a) => ({ nome: a.nome, email: a.email, foto: a.foto || '' }));
+
+    const medias = {};
+    d.ranking.forEach((r) => {
+      if (!medias[r.nome]) medias[r.nome] = doze();
+      medias[r.nome][r.mes - 1] = Number(r.media);
+    });
+
+    const ativosCrit = d.criterios.filter((c) => c.ativo);
+    const critPorId = {};
+    d.criterios.forEach((c) => { critPorId[c.id] = c; });
+    const criterios = ativosCrit.map((c) => ({ nome: c.nome, series: {} }));
+    const blocoPorId = {};
+    ativosCrit.forEach((c, i) => { blocoPorId[c.id] = criterios[i]; });
+    d.avaliacoes.forEach((v) => {
+      const b = blocoPorId[v.criterio_id];
+      const nome = nomeDe(v.associado_id);
+      if (!b || !nome) return;
+      if (!b.series[nome]) b.series[nome] = doze();
+      b.series[nome][v.mes - 1] = Number(v.nota);
+    });
+
+    const rubrica = {};
+    ativosCrit.forEach((c) => { rubrica[c.nome] = { avalia: c.avalia || '', niveis: {} }; });
+    d.rubrica.forEach((r) => {
+      const c = critPorId[r.criterio_id];
+      if (!c || !rubrica[c.nome]) return;
+      rubrica[c.nome].niveis[r.nota] = { nivel: r.nivel || '', descritor: r.descritor || '' };
+    });
+
+    const TITULOS = { faltas: 'Faltas', atrasos_reuniao: 'Atrasos em reuniões', atrasos_entrega: 'Atrasos em entregas' };
+    const blocosPen = {};
+    Object.keys(TITULOS).forEach((k) => { blocosPen[k] = { nome: TITULOS[k], series: {} }; });
+    ativos.forEach((a) => {
+      Object.keys(blocosPen).forEach((k) => { blocosPen[k].series[a.nome] = doze().map(() => 0); });
+    });
+    d.penalidades.forEach((p) => {
+      const b = blocosPen[p.tipo];
+      const nome = nomeDe(p.associado_id);
+      if (!b || !nome) return;
+      if (!b.series[nome]) b.series[nome] = doze().map(() => 0);
+      b.series[nome][p.mes - 1] = p.quantidade;
+    });
+    const entregas = criterios.find((c) => semAcento(c.nome) === 'entregas');
+    const penalidades = Object.keys(blocosPen).map((k) => blocosPen[k])
+      .concat(entregas ? [{ nome: 'Entregas', series: entregas.series }] : []);
+
+    const faixaNome = {};
+    d.faixas.forEach((f) => { faixaNome[f.id] = f.nome; });
+    const rankings = d.faixas.map((f) => ({
+      id: f.id, nome: f.nome, minimo: Number(f.minimo), descricao: f.descricao || undefined
+    })).sort((a, b) => b.minimo - a.minimo);
+
+    const prodPorId = {};
+    d.produtos.forEach((p) => { prodPorId[p.id] = p; });
+    cfg.loja = cfg.loja || {};
+    cfg.loja.produtos = d.produtos.map((p) => ({
+      id: p.id, nome_planilha: p.nome, titulo: p.titulo || p.nome,
+      descricao: p.descricao || '', status: p.status
+    }));
+    const loja = {
+      catalogo: d.produtos.map((p) => ({
+        produto: p.nome,
+        requer_ranking: p.requer_ranking ? (faixaNome[p.requer_ranking] || p.requer_ranking) : '',
+        preco: p.preco,
+        quantidade: p.estoque === null ? null : p.estoque,
+        por_pessoa: p.por_pessoa === null ? null : p.por_pessoa
+      })),
+      compras: d.compras.map((c) => {
+        const a = porId[c.associado_id];
+        const p = prodPorId[c.produto_id];
+        return {
+          email: a ? a.email : '', dono: a ? a.email : null,
+          produto: p ? p.nome : c.produto_id, data: dataBR(c.data)
+        };
+      })
+    };
+
+    const objetivos = d.objetivos.filter((o) => o.ativo);
+    const idxObj = {};
+    objetivos.forEach((o, i) => { idxObj[o.id] = i; });
+    const totais = {};
+    const porObjetivo = {};
+    d.lancamentos.forEach((l) => {
+      const nome = nomeDe(l.associado_id);
+      if (!nome) return;
+      totais[nome] = (totais[nome] || 0) + l.xp;
+      if (!porObjetivo[nome]) porObjetivo[nome] = objetivos.map(() => 0);
+      const i = idxObj[l.objetivo_id];
+      if (i !== undefined) porObjetivo[nome][i] += l.xp;
+    });
+    const xp = {
+      objetivos: objetivos.map((o) => ({ multiplicador: o.multiplicador + 'X', objetivo: o.nome })),
+      totais: totais, por_objetivo: porObjetivo
+    };
+
+    const ocorrencias = d.ocorrencias.map((o) => ({
+      nome: nomeDe(o.associado_id), data: dataBR(o.data),
+      justificativa: o.justificativa || '', tipo: o.tipo || ''
+    })).filter((o) => o.nome);
+
+    return {
+      membros, rankings, medias, criterios, penalidades, rubrica, loja, xp, ocorrencias,
+      lido_em: new Date()
+    };
+  }
+
   /* ----------------------------------------------------------------- estado */
 
   /* Todas as abas cruas -> o estado bruto compartilhado por todos os membros. */
   function estado(grids, cfg) {
+    if (grids && grids.fonte === 'supabase') return estadoSupabase(grids, cfg);
     const membros = P.membros(grids.login || []);
     const nomes = membros.map((m) => m.nome);
     const loja = P.loja(grids.loja || []);
@@ -2105,6 +2428,30 @@ SPJ.Dominio = (function () {
           ranking_id: rank && rank.id
         };
       });
+  }
+
+  /* O destaque de evolução: a maior alta da nota do mês em relação ao mês
+     anterior. Só entra quem tem nota nos dois meses e subiu. Empate
+     desempata pela nota mais alta e depois pelo nome. */
+  function evolucao(est, regras, mes) {
+    if (mes < 1) return null;
+    const porNome = {};
+    est.membros.forEach((m) => { porNome[m.nome] = m; });
+    const lista = Object.keys(est.medias).map((nome) => {
+      const s = est.medias[nome];
+      const atual = s[mes], antes = s[mes - 1];
+      if (vazio(atual) || vazio(antes) || !(atual > 0) || !(antes > 0)) return null;
+      return { nome: nome, media: atual, anterior: antes, delta: arredonda(atual - antes, 2) };
+    }).filter((d) => d && d.delta > 0)
+      .sort((a, b) => (b.delta - a.delta) || (b.media - a.media) || a.nome.localeCompare(b.nome, 'pt-BR'));
+    const d = lista[0];
+    if (!d) return null;
+    const rank = rankingDe(d.media, regras);
+    const membro = porNome[d.nome] || { nome: d.nome, foto: '' };
+    return Object.assign(d, {
+      foto: fotoDe(membro), iniciais: iniciais(d.nome),
+      ranking: rank && rank.nome, mes_anterior: P.MESES[mes - 1]
+    });
   }
 
   /* -------------------------------------------------------------- critérios */
@@ -2438,6 +2785,7 @@ SPJ.Dominio = (function () {
       ranking: rank && { id: rank.id, nome: rank.nome },
       trofeus: trofeus(media, regras),
       destaques: destaques(est, regras, mes),
+      evolucao: evolucao(est, regras, mes),
       criterios: criteriosDoMembro(est, nome, mes),
       penalidades: penalidadesDoMembro(est, nome, mes, cfg.regras.penalidades, cfg.regras_texto),
       advertencias: advertencias(est, nome, mes, cfg.regras.penalidades),
@@ -2464,270 +2812,220 @@ SPJ.Dominio = (function () {
 })();
 </script>
 <script>
-/* De onde vêm os dados da planilha.
-
-   São dois caminhos, escolhidos sozinho conforme onde o site está publicado:
-
-   · Apps Script   — o site roda dentro da planilha. A leitura é direta,
-                     autenticada, sem rede e sem CORS.
-   · Host estático — fala com a ponte publicada (o mesmo Apps Script, pelo
-                     /exec). A planilha continua privada, e a coluna de senha
-                     é apagada do outro lado antes de responder.
-
-   Nos dois casos o site fica escutando: enquanto a aba estiver visível, ele
-   reconfere a planilha de tempos em tempos e avisa quem estiver ouvindo — mas
-   só quando o conteúdo mudou de verdade. */
+/* Fonte dos dados: o banco no Supabase.
+   Substitui a ponte do Apps Script. Cada leitura traz tudo o que o painel
+   precisa, já filtrado pelas regras de acesso do banco (RLS): o associado
+   recebe só os próprios dados; o diretor, os da área dele; a presidência,
+   os de todos. O ranking da equipe vem de uma função que expõe só as médias. */
 window.SPJ = window.SPJ || {};
 
 SPJ.Fonte = (function () {
   'use strict';
 
   const cfg = SPJ.config;
-  const noAppsScript = typeof google !== 'undefined' &&
-    !!google.script && typeof google.script.run !== 'undefined';
+  const sb = window.supabase.createClient(cfg.supabase_url, cfg.supabase_chave, {
+    auth: { persistSession: true, autoRefreshToken: true }
+  });
 
-  /* -------------------------------------------------------- Apps Script */
+  function anoAtual() { return new Date().getFullYear(); }
 
-  function chamarGas(funcao, args) {
-    return new Promise(function (ok, falhar) {
-      const runner = google.script.run
-        .withSuccessHandler(ok)
-        .withFailureHandler(function (e) {
-          falhar(new Error(e && e.message ? e.message : String(e)));
-        });
-      runner[funcao].apply(runner, args || []);
-    });
+  async function tudo(consulta) {
+    const r = await consulta;
+    if (r.error) throw new Error(r.error.message);
+    return r.data || [];
   }
 
-  async function lerDoAppsScript(assinaturaAtual) {
-    const r = await chamarGas('lerAbas', [assinaturaAtual || '']);
-    if (!r) throw new Error('a planilha não respondeu');
-    if (r.erro) throw new Error(r.erro);
-    if (r.igual) return null;                    // nada mudou: não redesenha
-    return { grids: r.grids, assinatura: r.assinatura };
+  async function lerBanco() {
+    const s = await sb.auth.getSession();
+    if (!s.data.session) return null;
+    const ano = anoAtual();
+
+    const [associados, criterios, rubrica, avaliacoes, ranking, faixas, penalidades,
+           regras, ocorrencias, objetivos, lancamentos, produtos, compras] = await Promise.all([
+      tudo(sb.from('associados').select('id,nome,email,area,papel,avaliado,foto,ativo,user_id').order('nome')),
+      tudo(sb.from('criterios').select('*').order('ordem')),
+      tudo(sb.from('rubrica').select('*')),
+      tudo(sb.from('avaliacoes').select('associado_id,mes,criterio_id,nota').eq('ano', ano)),
+      tudo(sb.rpc('ranking_do_ano', { p_ano: ano })),
+      tudo(sb.from('faixas_ranking').select('*').order('minimo', { ascending: false })),
+      tudo(sb.from('penalidades').select('associado_id,mes,tipo,quantidade').eq('ano', ano)),
+      tudo(sb.from('regras_penalidade').select('*')),
+      tudo(sb.from('ocorrencias').select('*').order('data', { ascending: false })),
+      tudo(sb.from('xp_objetivos').select('*').order('ordem')),
+      tudo(sb.from('xp_lancamentos').select('associado_id,objetivo_id,xp')),
+      tudo(sb.from('loja_produtos').select('*').order('ordem')),
+      tudo(sb.from('loja_compras').select('id,associado_id,produto_id,xp,data,entregue'))
+    ]);
+
+    return {
+      fonte: 'supabase', ano: ano,
+      associados, criterios, rubrica, avaliacoes, ranking, faixas, penalidades,
+      regras, ocorrencias, objetivos, lancamentos, produtos, compras
+    };
   }
 
-  /* ----------------------------------------------------- host estático */
+  /* ----------------------------------------------------------- leitura */
 
-  /* Fora do Apps Script a leitura também passa pela ponte, não pelo endpoint
-     público de CSV do Google. O motivo é a coluna de senha: o CSV entrega a
-     aba Login crua, e obrigaria a planilha inteira a ser pública. A ponte roda
-     dentro da planilha, apaga a senha antes de responder (esconderSenha) e
-     deixa a planilha privada. */
-  async function lerDaPonte(assinaturaAtual) {
-    if (!cfg.ponte) throw new Error('A ponte ainda não foi publicada.');
-
-    const controle = new AbortController();
-    const prazo = setTimeout(function () { controle.abort(); }, 30000);
-
-    let r;
-    try {
-      r = await fetch(cfg.ponte, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ acao: 'abas', assinatura: assinaturaAtual || '' }),
-        redirect: 'follow',
-        signal: controle.signal
-      });
-    } finally {
-      clearTimeout(prazo);
-    }
-    if (!r.ok) throw new Error('a ponte respondeu HTTP ' + r.status);
-
-    // a publicação antiga devolve uma página de erro em HTML; sem isto o
-    // recado seria um erro de sintaxe de JSON
-    const texto = await r.text();
-    let resposta;
-    try {
-      resposta = JSON.parse(texto);
-    } catch (e) {
-      throw new Error('A publicação do Apps Script está desatualizada. ' +
-        'Republique: Implantar > Gerenciar implantações > Nova versão.');
-    }
-
-    if (resposta.erro) throw new Error(resposta.erro);
-    if (resposta.igual) return null;             // nada mudou: não redesenha
-    return { grids: resposta.grids, assinatura: resposta.assinatura };
-  }
-
-  /* -------------------------------------------------------------- público */
-
-  let assinatura = '';
   let ultimo = null;
+  let assinatura = '';
   const ouvintes = [];
   let relogio = null;
   let lendo = null;
 
-  /* Devolve os dados novos, ou null quando a planilha não mudou. Chamadas
-     simultâneas compartilham a mesma leitura. */
-  function ler(forcar) {
+  function ler() {
     if (lendo) return lendo;
-    const alvo = forcar ? '' : assinatura;
-    const leitura = noAppsScript ? lerDoAppsScript(alvo) : lerDaPonte(alvo);
-
-    lendo = leitura.then(function (r) {
+    lendo = lerBanco().then(function (d) {
       lendo = null;
-      if (!r) return null;
-      assinatura = r.assinatura;
-      ultimo = r.grids;
-      return r.grids;
-    }, function (e) {
-      lendo = null;
-      throw e;
-    });
-
+      if (d) { ultimo = d; assinatura = JSON.stringify(d); }
+      return d;
+    }, function (e) { lendo = null; throw e; });
     return lendo;
   }
 
   function aoMudar(fn) { ouvintes.push(fn); }
 
-  async function conferir(forcar) {
+  async function conferir() {
+    const antes = assinatura;
     try {
-      const grids = await ler(forcar);
-      if (grids) ouvintes.forEach(function (fn) { fn(grids); });
-      return !!grids;
+      const d = await ler();
+      const mudou = !!d && assinatura !== antes;
+      if (mudou) ouvintes.forEach(function (fn) { fn(d); });
+      return mudou;
     } catch (e) {
-      // rede instável não derruba a tela: segue com o que já está desenhado
-      if (window.console) console.warn('[fonte] não consegui reler a planilha: ' + e.message);
       return false;
     }
   }
 
-  /* Enquanto a aba estiver visível, reconfere de tempos em tempos. Em segundo
-     plano o relógio para: ninguém está olhando, e o navegador atrasaria o
-     temporizador de qualquer jeito. */
   function acompanhar() {
-    const intervalo = Math.max(cfg.atualizacao_segundos || 45, 15) * 1000;
-
+    if (relogio) return;
+    const intervalo = Math.max(cfg.atualizacao_segundos || 60, 15) * 1000;
     const ligar = function () {
       if (relogio) return;
-      relogio = setInterval(function () { conferir(false); }, intervalo);
+      relogio = setInterval(function () { conferir(); }, intervalo);
     };
     const desligar = function () { clearInterval(relogio); relogio = null; };
-
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden) return desligar();
-      conferir(false);          // voltou a olhar: confere na hora
-      ligar();
+      if (document.hidden) desligar(); else { conferir(); ligar(); }
     });
-    window.addEventListener('online', function () { conferir(false); });
-    if (!document.hidden) ligar();
+    window.addEventListener('online', function () { conferir(); });
+    ligar();
   }
 
+  function esquecer() { ultimo = null; assinatura = ''; }
+
   return {
-    modo: noAppsScript ? 'apps-script' : 'ponte',
-    noAppsScript: noAppsScript,
-    ler: ler,
-    conferir: conferir,
-    aoMudar: aoMudar,
-    acompanhar: acompanhar,
-    chamarGas: chamarGas,
+    sb: sb, modo: 'supabase',
+    ler: ler, conferir: conferir, aoMudar: aoMudar, acompanhar: acompanhar,
+    esquecer: esquecer,
     grids: function () { return ultimo; }
   };
 })();
 </script>
 <script>
-/* Tudo que ESCREVE na planilha, e o login.
-
-   Dentro do Apps Script a chamada é direta, já autenticada. Num host estático
-   ela vai pela ponte publicada (o mesmo Apps Script, pelo /exec).
-
-   A senha nunca é conferida aqui: ela fica na planilha e quem compara é o
-   Google. O que volta é uma sessão de curta duração — e, junto, os limites das
-   penalidades, que por isso nunca precisam morar no arquivo do site. */
+/* Login, resgates e o "quem sou eu" do associado logado. */
 window.SPJ = window.SPJ || {};
 
 SPJ.Api = (function () {
   'use strict';
 
   const cfg = SPJ.config;
-  const Fonte = SPJ.Fonte;
+  const sb = SPJ.Fonte.sb;
+  let eu = null;
 
-  let sessao = null;
+  const TRADUCAO = [
+    [/invalid login credentials/i, 'E-mail ou senha incorretos.'],
+    [/email not confirmed/i, 'Confirme seu e-mail pelo link que chegou na sua caixa de entrada.'],
+    [/password should be at least/i, 'A senha precisa ter pelo menos 6 caracteres.'],
+    [/user already registered/i, 'Este e-mail já tem senha criada. Use "Entrar".'],
+    [/rate limit/i, 'Muitas tentativas seguidas. Espere um minuto e tente de novo.'],
+    [/failed to fetch|network/i, 'Sem conexão com o servidor. Confira a internet.'],
+    [/database error saving new user/i, 'Este e-mail não está na lista de associados ou já tem senha criada. Procure a diretoria.']
+  ];
+  function traduzir(e) {
+    const m = String((e && e.message) || e || '');
+    const t = TRADUCAO.find(function (p) { return p[0].test(m); });
+    return new Error(t ? t[1] : m);
+  }
 
-  const PRAZO = 25000;
-
-  /* Colar o código no editor do Apps Script não publica nada — quem publica é
-     uma NOVA VERSÃO da implantação. Enquanto isso não acontece, a planilha
-     responde com o script antigo, que não sabe o que é "entrar". Este é o
-     recado que explica exatamente isso, em vez de um erro genérico. */
-  const DESATUALIZADA =
-    'A publicação do Apps Script está desatualizada. É preciso republicá-la: ' +
-    'Implantar → Gerenciar implantações → Nova versão.';
-
-  /* Nenhuma espera é para sempre. Sem isto, um Google fora do ar deixa o botão
-     em "Entrando…" e o associado sem saber o que houve. */
-  function comPrazo(promessa, cancelar) {
-    return new Promise((ok, falhar) => {
-      const relogio = setTimeout(() => {
-        if (cancelar) cancelar();
-        falhar(new Error('O Google demorou demais para responder. Tente de novo.'));
-      }, PRAZO);
-      promessa.then(
-        (v) => { clearTimeout(relogio); ok(v); },
-        (e) => { clearTimeout(relogio); falhar(e); }
-      );
+  function regrasDe(linhas) {
+    const r = {};
+    (linhas || []).forEach(function (l) {
+      r[l.chave] = {
+        janela: l.janela || undefined,
+        limite: l.limite === null ? undefined : l.limite,
+        minimo: l.minimo === null ? undefined : Number(l.minimo),
+        advertencia: !!l.advertencia
+      };
     });
+    return r;
   }
 
-  /* Um POST simples: sem cabeçalho fora do comum, o navegador não precisa
-     pedir licença antes (nenhum preflight), e o Apps Script responde direto. */
-  async function pelaPonte(corpo) {
-    if (!cfg.ponte) throw new Error('A ponte ainda não foi publicada.');
-
-    const controle = new AbortController();
-    const r = await comPrazo(fetch(cfg.ponte, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(corpo),
-      redirect: 'follow',
-      signal: controle.signal
-    }), () => controle.abort());
-
-    if (!r.ok) throw new Error('a ponte respondeu HTTP ' + r.status);
-
-    // a publicação antiga devolve uma página de erro em HTML; sem isto o
-    // recado seria um erro de sintaxe de JSON
-    const texto = await r.text();
-    try {
-      return JSON.parse(texto);
-    } catch (e) {
-      throw new Error(DESATUALIZADA);
+  async function carregarEu() {
+    const s = await sb.auth.getSession();
+    const user = s.data.session && s.data.session.user;
+    if (!user) { eu = null; return null; }
+    const r = await sb.from('associados').select('*').eq('user_id', user.id).maybeSingle();
+    if (r.error) throw traduzir(r.error);
+    if (!r.data) {
+      await sb.auth.signOut();
+      throw new Error('Seu login não está ligado a nenhum associado. Procure a diretoria.');
     }
+    eu = r.data;
+    const regras = await sb.from('regras_penalidade').select('*');
+    cfg.regras.penalidades = regrasDe(regras.data);
+    return eu;
   }
-
-  function chamar(acao, dados) {
-    const corpo = Object.assign({ acao: acao, sessao: sessao }, dados || {});
-    return Fonte.noAppsScript
-      ? comPrazo(Fonte.chamarGas('pedido', [corpo]))
-      : pelaPonte(corpo);
-  }
-
-  /* ------------------------------------------------------------- sessão */
 
   async function entrar(email, senha) {
-    const r = await chamar('entrar', { email: String(email).trim().toLowerCase(), senha: senha });
-
-    // a versão antiga exigia token em tudo e não sabe o que é "entrar"
-    const erro = r && String(r.erro || '');
-    if (erro === 'token inválido' || erro.indexOf('ação desconhecida') === 0) {
-      throw new Error(DESATUALIZADA);
-    }
-    if (!r || !r.ok) throw new Error((r && r.erro) || 'Não foi possível entrar.');
-    sessao = r.sessao;
-    // os limites chegam só agora, e só para quem entrou
-    cfg.regras.penalidades = r.regras || {};
-    return { nome: r.nome, email: r.email };
+    const r = await sb.auth.signInWithPassword({
+      email: String(email).trim().toLowerCase(), password: senha
+    });
+    if (r.error) throw traduzir(r.error);
+    const m = await carregarEu();
+    return { nome: m.nome, email: m.email };
   }
 
-  function sair() { sessao = null; }
-  function temSessao() { return !!sessao; }
+  /* Primeiro acesso: o associado cria a própria senha. O banco só aceita
+     e-mails que já estão na lista de associados e ainda não têm senha. */
+  async function criarSenha(email, senha) {
+    const e = String(email).trim().toLowerCase();
+    const c = await sb.rpc('email_cadastrado', { p_email: e });
+    if (c.error) throw traduzir(c.error);
+    if (c.data === 'nao') throw new Error('Este e-mail não está na lista de associados. Procure a diretoria.');
+    if (c.data === 'ja_tem_senha') throw new Error('Este e-mail já tem senha criada. Use "Entrar".');
+    const r = await sb.auth.signUp({ email: e, password: senha });
+    if (r.error) throw traduzir(r.error);
+    if (!r.data.session) {
+      throw new Error('Senha criada. Confirme pelo link que chegou no seu e-mail e depois entre.');
+    }
+    const m = await carregarEu();
+    return { nome: m.nome, email: m.email };
+  }
 
-  /* --------------------------------------------------------------- loja */
+  async function retomar() {
+    const s = await sb.auth.getSession();
+    if (!s.data.session) return null;
+    try {
+      const m = await carregarEu();
+      return { nome: m.nome, email: m.email };
+    } catch (e) { return null; }
+  }
+
+  async function trocarSenha(nova) {
+    const r = await sb.auth.updateUser({ password: nova });
+    if (r.error) throw traduzir(r.error);
+    return true;
+  }
+
+  function sair() { eu = null; SPJ.Fonte.esquecer(); return sb.auth.signOut(); }
+  function temSessao() { return !!eu; }
 
   function identificador() {
     if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
-    return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
   }
 
   function hoje() {
@@ -2736,33 +3034,609 @@ SPJ.Api = (function () {
     return dois(d.getDate()) + '/' + dois(d.getMonth() + 1) + '/' + d.getFullYear();
   }
 
-  /* O id acompanha a compra do começo ao fim: se a resposta se perder no
-     caminho e o site tentar de novo, a planilha reconhece e não grava duas. */
-  async function comprar(produto, quantidade, xp) {
-    const compra = {
-      id: identificador(),
-      produto: produto,
-      quantidade: quantidade || 1,
-      xp: xp || 0,
-      data: hoje()
-    };
-    const r = await chamar('comprar', { compra: compra });
-    if (!r || !r.ok) throw new Error((r && r.erro) || 'Não foi possível concluir o resgate.');
-    return { compra: compra, resposta: r };
+  /* O id acompanha o resgate: se a resposta se perder e o site tentar de
+     novo, o banco reconhece e não grava dois. Saldo, estoque, ranking e
+     limite por pessoa são conferidos no servidor. */
+  async function comprar(produtoNome, quantidade, xp) {
+    const dados = SPJ.Fonte.grids();
+    const prod = dados && dados.produtos.find(function (p) { return p.nome === produtoNome; });
+    if (!prod) throw new Error('Produto não encontrado.');
+    const compra = { id: identificador(), produto: produtoNome, quantidade: 1, xp: xp || 0, data: hoje() };
+    const r = await sb.rpc('resgatar', { p_produto: prod.id, p_compra: compra.id });
+    if (r.error) throw traduzir(r.error);
+    return { compra: compra, resposta: r.data };
   }
 
-  /* ------------------------------------------------------------- mentor */
-
-  async function mentor(pergunta, contexto) {
-    const r = await chamar('mentor', { pergunta: pergunta, contexto: contexto });
-    if (!r || !r.ok) throw new Error((r && r.erro) || 'O mentor não respondeu.');
-    return r.texto;
+  async function mentor() {
+    throw new Error('o mentor está desligado nesta versão');
   }
 
   return {
-    entrar: entrar, sair: sair, temSessao: temSessao,
-    comprar: comprar, mentor: mentor
+    entrar: entrar, criarSenha: criarSenha, retomar: retomar, trocarSenha: trocarSenha,
+    sair: sair, temSessao: temSessao, comprar: comprar, mentor: mentor,
+    eu: function () { return eu; }
   };
+})();
+</script>
+<script>
+/* Gestão: onde a diretoria lança avaliações, penalidades, XP e ocorrências,
+   e onde a presidência cuida da loja e da lista de associados.
+   As permissões de verdade estão no banco (RLS); aqui a tela só mostra o que
+   cada um pode mexer. */
+window.SPJ = window.SPJ || {};
+
+SPJ.Gestao = (function () {
+  'use strict';
+
+  const sb = SPJ.Fonte.sb;
+  const $ = (id) => document.getElementById(id);
+  const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  const esc = (v) => String(v === null || v === undefined ? '' : v)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const num = (v, c = 2) => (v === null || v === undefined || isNaN(v)) ? '—'
+    : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: c, maximumFractionDigits: c });
+  const hojeISO = () => new Date().toISOString().slice(0, 10);
+  const dataBR = (iso) => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || ''); return m ? `${m[3]}/${m[2]}/${m[1]}` : (iso || ''); };
+
+  let eu = null;
+  let aba = 'avaliacoes';
+  let ano = new Date().getFullYear();
+  let mes = new Date().getMonth() + 1;
+  let base = null;             // associados, critérios, rubrica, objetivos, produtos, faixas
+  let notasMes = [];           // avaliações do mês selecionado
+  let selecionado = null;      // associado em avaliação
+  let rascunho = {};           // criterio_id -> nota
+  let iniciado = false;
+
+  /* ---------------------------------------------------------- utilidades */
+
+  function recado(texto, tipo) {
+    const el = $('g-recado');
+    el.textContent = texto || '';
+    el.dataset.tipo = tipo || '';
+    if (texto && tipo === 'ok') setTimeout(() => { if (el.textContent === texto) el.textContent = ''; }, 4000);
+  }
+
+  async function q(consulta) {
+    const r = await consulta;
+    if (r.error) throw new Error(r.error.message);
+    return r.data || [];
+  }
+
+  const presidencia = () => eu && eu.papel === 'presidencia';
+  const podeGerir = (a) => presidencia() || (eu && eu.papel === 'diretor' && eu.area && a.area === eu.area && a.id !== eu.id);
+  const geriveis = () => base.associados.filter((a) => a.ativo && podeGerir(a));
+  const avaliaveis = () => geriveis().filter((a) => a.avaliado);
+  const criteriosAtivos = () => base.criterios.filter((c) => c.ativo);
+
+  function opcoesAssociados(sel, lista) {
+    $(sel).innerHTML = lista.map((a) => `<option value="${a.id}">${esc(a.nome)}</option>`).join('');
+  }
+
+  async function carregarBase() {
+    const [associados, criterios, rubrica, objetivos, produtos, faixas] = await Promise.all([
+      q(sb.from('associados').select('*').order('nome')),
+      q(sb.from('criterios').select('*').order('ordem')),
+      q(sb.from('rubrica').select('*')),
+      q(sb.from('xp_objetivos').select('*').order('ordem')),
+      q(sb.from('loja_produtos').select('*').order('ordem')),
+      q(sb.from('faixas_ranking').select('*').order('minimo', { ascending: false }))
+    ]);
+    base = { associados, criterios, rubrica, objetivos, produtos, faixas };
+  }
+
+  function rubricaDe(criterioId) {
+    const r = {};
+    base.rubrica.filter((x) => x.criterio_id === criterioId).forEach((x) => { r[x.nota] = x; });
+    return r;
+  }
+
+  function faixaDe(media) {
+    if (media === null || media === undefined) return null;
+    return base.faixas.find((f) => media >= Number(f.minimo)) || null;
+  }
+
+  function avisarPainel() { SPJ.Fonte.conferir(); }
+
+  /* ---------------------------------------------------------- avaliações */
+
+  async function abrirAvaliacoes() {
+    notasMes = await q(sb.from('avaliacoes').select('*').eq('ano', ano).eq('mes', mes));
+    desenharPessoas();
+    if (selecionado && !avaliaveis().some((a) => a.id === selecionado.id)) selecionado = null;
+    if (selecionado) abrirFormulario(selecionado.id); else limparFormulario();
+  }
+
+  function notasDe(associadoId) {
+    const n = {};
+    notasMes.filter((v) => v.associado_id === associadoId).forEach((v) => { n[v.criterio_id] = Number(v.nota); });
+    return n;
+  }
+
+  function mediaDe(notas) {
+    const crit = criteriosAtivos();
+    const vals = crit.map((c) => notas[c.id]).filter((v) => v !== undefined && v !== null);
+    if (!vals.length) return null;
+    return vals.reduce((s, v) => s + v, 0) / vals.length;
+  }
+
+  function desenharPessoas() {
+    const lista = avaliaveis();
+    const total = criteriosAtivos().length;
+    let feitos = 0;
+    $('g-pessoas').innerHTML = lista.map((a) => {
+      const n = notasDe(a.id);
+      const qtd = Object.keys(n).filter((k) => criteriosAtivos().some((c) => String(c.id) === k)).length;
+      const ok = qtd >= total;
+      if (ok) feitos++;
+      const chip = ok ? `<span class="g-chip g-chip--ok">${num(mediaDe(n))}</span>`
+        : (qtd ? `<span class="g-chip g-chip--pend">${qtd}/${total}</span>` : '<span class="g-chip g-chip--pend">pendente</span>');
+      return `<li><button class="g-pessoa" data-id="${a.id}" ${selecionado && selecionado.id === a.id ? 'aria-current="true"' : ''}>
+        <span>${esc(a.nome)}</span>${chip}</button></li>`;
+    }).join('') || '<li class="miudo">Nenhum associado da sua área para avaliar.</li>';
+    $('g-progresso').textContent = lista.length
+      ? `${feitos} de ${lista.length} avaliados em ${MESES[mes - 1]}` : '';
+    $('g-pessoas').querySelectorAll('.g-pessoa').forEach((b) => {
+      b.addEventListener('click', () => abrirFormulario(b.dataset.id));
+    });
+  }
+
+  function limparFormulario() {
+    $('g-form').innerHTML = `<div class="vazio" style="margin:0"><h3>Escolha um associado</h3>
+      <p>Selecione alguém na lista ao lado para lançar ou revisar a avaliação de ${MESES[mes - 1]}.</p></div>`;
+  }
+
+  function abrirFormulario(id) {
+    selecionado = base.associados.find((a) => a.id === id);
+    rascunho = notasDe(id);
+    desenharPessoas();
+    const crit = criteriosAtivos();
+    $('g-form').innerHTML = `
+      <p class="rotulo">Avaliação de ${MESES[mes - 1]} de ${ano}</p>
+      <h3 style="margin:6px 0 2px">${esc(selecionado.nome)}</h3>
+      <p class="miudo">${esc(selecionado.area || 'Sem área definida')} · escala de 1 a 4 em cada critério</p>
+      <div style="margin-top:8px">
+        ${crit.map((c) => {
+          const rub = rubricaDe(c.id);
+          return `<div class="g-crit" data-crit="${c.id}">
+            <div class="g-crit__topo"><h4>${esc(c.nome)}</h4></div>
+            <p class="g-crit__avalia">${esc(c.avalia || '')}</p>
+            <div class="g-notas">
+              ${[1, 2, 3, 4].map((n) => `<button type="button" class="g-nota" data-nota="${n}"
+                  aria-pressed="${rascunho[c.id] === n}"><b>${n}</b><small>${esc((rub[n] || {}).nivel || '')}</small></button>`).join('')}
+            </div>
+            <p class="g-desc" data-desc="${c.id}">${esc(rascunho[c.id] ? (rub[rascunho[c.id]] || {}).descritor || '' : '')}</p>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="g-rodape">
+        <div class="g-rodape__media">Nota do mês: <b id="g-media">—</b> <span class="miudo" id="g-faixa"></span></div>
+        <button type="button" class="botao botao--fantasma g-mini" id="g-pdf">PDF</button>
+        <button type="button" class="botao botao--fantasma g-mini" id="g-word">Word</button>
+        <button type="button" class="botao" id="g-salvar">Salvar avaliação</button>
+      </div>`;
+
+    $('g-form').querySelectorAll('.g-crit').forEach((bloco) => {
+      const cid = Number(bloco.dataset.crit);
+      const rub = rubricaDe(cid);
+      bloco.querySelectorAll('.g-nota').forEach((b) => {
+        b.addEventListener('click', () => {
+          const n = Number(b.dataset.nota);
+          rascunho[cid] = n;
+          bloco.querySelectorAll('.g-nota').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+          bloco.querySelector('.g-desc').textContent = (rub[n] || {}).descritor || '';
+          atualizarMedia();
+        });
+      });
+    });
+    $('g-salvar').addEventListener('click', salvarAvaliacao);
+    $('g-pdf').addEventListener('click', () => formulario('pdf', selecionado, rascunho));
+    $('g-word').addEventListener('click', () => formulario('word', selecionado, rascunho));
+    atualizarMedia();
+  }
+
+  function atualizarMedia() {
+    const m = mediaDe(rascunho);
+    $('g-media').textContent = num(m);
+    const f = faixaDe(m);
+    const faltam = criteriosAtivos().filter((c) => !rascunho[c.id]).length;
+    $('g-faixa').textContent = (faltam ? `faltam ${faltam} critério${faltam > 1 ? 's' : ''}` : '') +
+      (f && !faltam ? `faixa ${f.nome}` : '');
+  }
+
+  async function salvarAvaliacao() {
+    const crit = criteriosAtivos();
+    const faltam = crit.filter((c) => !rascunho[c.id]);
+    if (faltam.length) return recado(`Dê nota para todos os critérios. Faltam: ${faltam.map((c) => c.nome).join(', ')}.`, 'erro');
+    const b = $('g-salvar');
+    b.disabled = true; b.textContent = 'Salvando…';
+    try {
+      const linhas = crit.map((c) => ({
+        associado_id: selecionado.id, ano: ano, mes: mes, criterio_id: c.id,
+        nota: rascunho[c.id], avaliador_id: eu.id, atualizado_em: new Date().toISOString()
+      }));
+      await q(sb.from('avaliacoes').upsert(linhas, { onConflict: 'associado_id,ano,mes,criterio_id' }).select('id'));
+      recado(`Avaliação de ${selecionado.nome} salva. Nota do mês: ${num(mediaDe(rascunho))}.`, 'ok');
+      notasMes = await q(sb.from('avaliacoes').select('*').eq('ano', ano).eq('mes', mes));
+      const proximo = avaliaveis().find((a) => Object.keys(notasDe(a.id)).length < crit.length && a.id !== selecionado.id);
+      desenharPessoas();
+      avisarPainel();
+      if (proximo) abrirFormulario(proximo.id); else abrirFormulario(selecionado.id);
+    } catch (e) {
+      recado('Não foi possível salvar: ' + e.message, 'erro');
+      b.disabled = false; b.textContent = 'Salvar avaliação';
+    }
+  }
+
+  /* ------------------------------------------- formulário em PDF e Word */
+
+  function documento(assoc, notas) {
+    const crit = criteriosAtivos();
+    const m = assoc ? mediaDe(notas) : null;
+    const completo = assoc && crit.every((c) => notas[c.id]);
+    const f = completo ? faixaDe(m) : null;
+    const linhas = crit.map((c, i) => {
+      const rub = rubricaDe(c.id);
+      const n = notas[c.id];
+      return `<tr>
+        <td class="n">${i + 1}</td>
+        <td><b>${esc(c.nome)}</b><br><span class="av">${esc(c.avalia || '')}</span>
+          ${n && rub[n] ? `<br><span class="ds">${esc(rub[n].descritor)}</span>` : ''}</td>
+        ${[1, 2, 3, 4].map((k) => `<td class="c${n === k ? ' x' : ''}">${n === k ? '&#10003;' : '&nbsp;'}</td>`).join('')}
+      </tr>`;
+    }).join('');
+    const niveis = [1, 2, 3, 4].map((k) => {
+      const ex = crit.length ? (rubricaDe(crit[0].id)[k] || {}).nivel : '';
+      return `<b>${k}</b> ${esc(ex || '')}`;
+    }).join(' &nbsp;·&nbsp; ');
+
+    return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<title>Avaliação de Desempenho${assoc ? ' · ' + esc(assoc.nome) : ''}</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #0B0B0B; margin: 0; font-size: 11pt; }
+  .cab { background: #184848; color: #fff; padding: 18px 22px; border-bottom: 4px solid #C9A961; }
+  .cab small { letter-spacing: .14em; text-transform: uppercase; font-size: 8.5pt; color: #cfe0df; }
+  .cab h1 { margin: 4px 0 0; font-size: 19pt; font-weight: 700; }
+  .meta { width: 100%; border-collapse: collapse; margin: 16px 0 8px; }
+  .meta td { border: 1px solid #C6CDCA; padding: 7px 9px; font-size: 10pt; }
+  .meta td.r { background: #F2F4F3; color: #184848; font-weight: 700; width: 18%; }
+  .esc { font-size: 9pt; color: #4C5757; margin: 6px 0 10px; }
+  table.av { width: 100%; border-collapse: collapse; }
+  table.av th { background: #184848; color: #fff; font-size: 9pt; padding: 7px 6px; text-align: center; }
+  table.av th.l { text-align: left; }
+  table.av td { border-bottom: 1px solid #E4E8E6; padding: 7px 6px; vertical-align: top; font-size: 10pt; }
+  table.av tr:nth-child(even) td { background: #F8FAF9; }
+  td.n { width: 22px; color: #6A7776; text-align: center; }
+  td.c { width: 34px; text-align: center; border-left: 1px solid #E4E8E6; font-size: 12pt; color: #184848; }
+  td.x { background: #e6efee !important; font-weight: 700; }
+  .av .av, span.av { color: #6A7776; font-size: 9pt; }
+  span.ds { color: #184848; font-size: 9pt; font-style: italic; }
+  .res { display: flex; gap: 12px; margin: 16px 0; }
+  .res div { flex: 1; border: 1px solid #C6CDCA; border-left: 4px solid #184848; padding: 9px 12px; }
+  .res b { display: block; font-size: 16pt; color: #184848; }
+  .obs { border: 1px solid #C6CDCA; min-height: 70px; padding: 8px 10px; margin-top: 6px; }
+  .ass { display: flex; gap: 40px; margin-top: 46px; }
+  .ass div { flex: 1; border-top: 1px solid #0B0B0B; padding-top: 5px; font-size: 9pt; text-align: center; }
+  .rod { margin-top: 26px; font-size: 8pt; color: #6A7776; text-align: center; }
+</style></head><body>
+<div class="cab"><small>Saint Paul Jr · Empresa Júnior</small><h1>Avaliação de Desempenho Mensal</h1></div>
+<table class="meta">
+  <tr><td class="r">Associado</td><td>${assoc ? esc(assoc.nome) : '&nbsp;'}</td>
+      <td class="r">Área</td><td>${assoc ? esc(assoc.area || '') : '&nbsp;'}</td></tr>
+  <tr><td class="r">Mês de referência</td><td>${MESES[mes - 1]} de ${ano}</td>
+      <td class="r">Avaliador</td><td>${assoc ? esc(eu.nome) : '&nbsp;'}</td></tr>
+</table>
+<p class="esc">Escala: ${niveis}</p>
+<table class="av">
+  <thead><tr><th>#</th><th class="l">Critério</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>
+  <tbody>${linhas}</tbody>
+</table>
+<div class="res">
+  <div>Nota do mês (média dos ${crit.length} critérios)<b>${m === null ? '&nbsp;' : num(m)}</b></div>
+  <div>Faixa do ranking<b>${f ? esc(f.nome) : '&nbsp;'}</b></div>
+</div>
+<p style="font-size:10pt;margin:0"><b>Observações e plano de desenvolvimento</b></p>
+<div class="obs"></div>
+<div class="ass"><div>Assinatura do avaliador</div><div>Assinatura do associado</div></div>
+<p class="rod">Gerado pela plataforma de gamificação da Saint Paul Jr em ${dataBR(hojeISO())}.</p>
+</body></html>`;
+  }
+
+  function formulario(tipo, assoc, notas) {
+    const html = documento(assoc, notas || {});
+    const nome = `Avaliacao - ${assoc ? assoc.nome : 'em branco'} - ${MESES[mes - 1]} ${ano}`;
+    if (tipo === 'word') {
+      const word = html.replace('<html lang="pt-BR">',
+        '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40" lang="pt-BR">');
+      const blob = new Blob(['﻿', word], { type: 'application/msword' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = nome + '.doc';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      return;
+    }
+    const w = window.open('', '_blank');
+    if (!w) return recado('O navegador bloqueou a janela do PDF. Libere pop-ups para este site.', 'erro');
+    w.document.open(); w.document.write(html); w.document.close();
+    w.document.title = nome;
+    setTimeout(() => { w.focus(); w.print(); }, 350);
+  }
+
+  /* --------------------------------------------------------- penalidades */
+
+  const TIPOS = [['faltas', 'Faltas'], ['atrasos_reuniao', 'Atrasos em reuniões'], ['atrasos_entrega', 'Atrasos em entregas']];
+
+  async function abrirPenalidades() {
+    const linhas = await q(sb.from('penalidades').select('*').eq('ano', ano).eq('mes', mes));
+    const valor = (a, t) => { const l = linhas.find((x) => x.associado_id === a && x.tipo === t); return l ? l.quantidade : 0; };
+    const lista = geriveis();
+    $('g-pen').innerHTML = `<thead><tr><th>Associado</th>${TIPOS.map((t) => `<th>${t[1]}</th>`).join('')}</tr></thead>
+      <tbody>${lista.map((a) => `<tr><th scope="row">${esc(a.nome)}</th>${TIPOS.map((t) =>
+        `<td><input class="g-input" type="number" min="0" data-a="${a.id}" data-t="${t[0]}" value="${valor(a.id, t[0])}" data-orig="${valor(a.id, t[0])}"></td>`).join('')}</tr>`).join('')}</tbody>`;
+  }
+
+  async function salvarPenalidades() {
+    const mudadas = [...$('g-pen').querySelectorAll('input')].filter((i) => i.value !== i.dataset.orig);
+    if (!mudadas.length) return recado('Nada mudou.', 'ok');
+    try {
+      await q(sb.from('penalidades').upsert(mudadas.map((i) => ({
+        associado_id: i.dataset.a, ano: ano, mes: mes, tipo: i.dataset.t,
+        quantidade: Math.max(parseInt(i.value, 10) || 0, 0), lancado_por: eu.id,
+        atualizado_em: new Date().toISOString()
+      })), { onConflict: 'associado_id,ano,mes,tipo' }).select('associado_id'));
+      recado(`Penalidades de ${MESES[mes - 1]} salvas.`, 'ok');
+      avisarPainel();
+      abrirPenalidades();
+    } catch (e) { recado('Não foi possível salvar: ' + e.message, 'erro'); }
+  }
+
+  /* ------------------------------------------------------------------ XP */
+
+  function intervaloMes() {
+    const ini = `${ano}-${String(mes).padStart(2, '0')}-01`;
+    const fim = mes === 12 ? `${ano + 1}-01-01` : `${ano}-${String(mes + 1).padStart(2, '0')}-01`;
+    return [ini, fim];
+  }
+
+  function totalXP() {
+    const o = base.objetivos.find((x) => String(x.id) === $('g-xp-obj').value);
+    const qtd = parseInt($('g-xp-qtd').value, 10) || 0;
+    $('g-xp-total').textContent = o ? `(${qtd * o.multiplicador} XP)` : '';
+  }
+
+  async function abrirXP() {
+    opcoesAssociados('g-xp-assoc', geriveis());
+    $('g-xp-obj').innerHTML = base.objetivos.filter((o) => o.ativo)
+      .map((o) => `<option value="${o.id}">${esc(o.nome)} (${o.multiplicador}X)</option>`).join('');
+    if (!$('g-xp-data').value) $('g-xp-data').value = hojeISO();
+    totalXP();
+    const [ini, fim] = intervaloMes();
+    const linhas = await q(sb.from('xp_lancamentos').select('*').gte('data', ini).lt('data', fim).order('data', { ascending: false }));
+    const nome = (id) => (base.associados.find((a) => a.id === id) || {}).nome || '';
+    const obj = (id) => (base.objetivos.find((o) => o.id === id) || {}).nome || '';
+    $('g-xp-lista').innerHTML = linhas.length ? `<thead><tr><th>Associado</th><th>Objetivo</th><th>XP</th><th>Data</th><th>Obs.</th><th></th></tr></thead>
+      <tbody>${linhas.map((l) => `<tr><th scope="row">${esc(nome(l.associado_id))}</th><td>${esc(obj(l.objetivo_id))}</td>
+        <td>${l.xp}</td><td>${dataBR(l.data)}</td><td>${esc(l.observacao || '')}</td>
+        <td><button class="g-x" data-del="${l.id}">Excluir</button></td></tr>`).join('')}</tbody>`
+      : '<tbody><tr><td class="vazio">Nenhum lançamento neste mês.</td></tr></tbody>';
+    $('g-xp-lista').querySelectorAll('[data-del]').forEach((b) => b.addEventListener('click', async () => {
+      try { await q(sb.from('xp_lancamentos').delete().eq('id', b.dataset.del).select('id')); recado('Lançamento excluído.', 'ok'); avisarPainel(); abrirXP(); }
+      catch (e) { recado(e.message, 'erro'); }
+    }));
+  }
+
+  async function lancarXP(ev) {
+    ev.preventDefault();
+    const o = base.objetivos.find((x) => String(x.id) === $('g-xp-obj').value);
+    const qtd = parseInt($('g-xp-qtd').value, 10) || 0;
+    if (!o || qtd < 1) return recado('Escolha o objetivo e a quantidade.', 'erro');
+    try {
+      await q(sb.from('xp_lancamentos').insert({
+        associado_id: $('g-xp-assoc').value, objetivo_id: o.id, ocorrencias: qtd,
+        xp: qtd * o.multiplicador, data: $('g-xp-data').value || hojeISO(),
+        observacao: $('g-xp-obs').value || null, lancado_por: eu.id
+      }).select('id'));
+      recado(`${qtd * o.multiplicador} XP lançados.`, 'ok');
+      $('g-xp-obs').value = ''; $('g-xp-qtd').value = 1;
+      avisarPainel();
+      abrirXP();
+    } catch (e) { recado('Não foi possível lançar: ' + e.message, 'erro'); }
+  }
+
+  /* --------------------------------------------------------- ocorrências */
+
+  async function abrirOcorrencias() {
+    opcoesAssociados('g-oc-assoc', geriveis());
+    if (!$('g-oc-data').value) $('g-oc-data').value = hojeISO();
+    const [ini, fim] = intervaloMes();
+    const linhas = await q(sb.from('ocorrencias').select('*').gte('data', ini).lt('data', fim).order('data', { ascending: false }));
+    const nome = (id) => (base.associados.find((a) => a.id === id) || {}).nome || '';
+    $('g-oc-lista').innerHTML = linhas.length ? `<thead><tr><th>Associado</th><th>Data</th><th>Tipo</th><th>Justificativa</th><th></th></tr></thead>
+      <tbody>${linhas.map((l) => `<tr><th scope="row">${esc(nome(l.associado_id))}</th><td>${dataBR(l.data)}</td>
+        <td>${esc(l.tipo || '')}</td><td style="text-align:left">${esc(l.justificativa || '')}</td>
+        <td><button class="g-x" data-del="${l.id}">Excluir</button></td></tr>`).join('')}</tbody>`
+      : '<tbody><tr><td class="vazio">Nenhuma ocorrência neste mês.</td></tr></tbody>';
+    $('g-oc-lista').querySelectorAll('[data-del]').forEach((b) => b.addEventListener('click', async () => {
+      try { await q(sb.from('ocorrencias').delete().eq('id', b.dataset.del).select('id')); recado('Ocorrência excluída.', 'ok'); avisarPainel(); abrirOcorrencias(); }
+      catch (e) { recado(e.message, 'erro'); }
+    }));
+  }
+
+  async function registrarOcorrencia(ev) {
+    ev.preventDefault();
+    try {
+      await q(sb.from('ocorrencias').insert({
+        associado_id: $('g-oc-assoc').value, data: $('g-oc-data').value || hojeISO(),
+        tipo: $('g-oc-tipo').value, justificativa: $('g-oc-just').value || null, lancado_por: eu.id
+      }).select('id'));
+      recado('Ocorrência registrada.', 'ok');
+      $('g-oc-just').value = '';
+      avisarPainel();
+      abrirOcorrencias();
+    } catch (e) { recado('Não foi possível registrar: ' + e.message, 'erro'); }
+  }
+
+  /* ----------------------------------------------------------------- loja */
+
+  async function abrirLoja() {
+    const compras = await q(sb.from('loja_compras').select('*').order('data', { ascending: false }));
+    base.produtos = await q(sb.from('loja_produtos').select('*').order('ordem'));
+    const nome = (id) => (base.associados.find((a) => a.id === id) || {}).nome || '';
+    const prod = (id) => (base.produtos.find((p) => p.id === id) || {}).titulo || id;
+    $('g-compras').innerHTML = compras.length ? `<thead><tr><th>Associado</th><th>Produto</th><th>XP</th><th>Data</th><th>Entregue</th></tr></thead>
+      <tbody>${compras.map((c) => `<tr><th scope="row">${esc(nome(c.associado_id))}</th><td>${esc(prod(c.produto_id))}</td>
+        <td>${c.xp}</td><td>${dataBR(c.data)}</td>
+        <td><input type="checkbox" data-entregue="${c.id}" ${c.entregue ? 'checked' : ''}></td></tr>`).join('')}</tbody>`
+      : '<tbody><tr><td class="vazio">Nenhum resgate ainda.</td></tr></tbody>';
+    $('g-compras').querySelectorAll('[data-entregue]').forEach((cb) => cb.addEventListener('change', async () => {
+      try { await q(sb.from('loja_compras').update({ entregue: cb.checked }).eq('id', cb.dataset.entregue).select('id')); recado('Resgate atualizado.', 'ok'); }
+      catch (e) { recado(e.message, 'erro'); }
+    }));
+
+    const faixas = base.faixas.slice().reverse();
+    $('g-produtos').innerHTML = `<thead><tr><th>Produto</th><th>Preço (XP)</th><th>Estoque</th><th>Por pessoa</th><th>Ranking mínimo</th><th>Status</th><th></th></tr></thead>
+      <tbody>${base.produtos.map((p) => `<tr data-p="${p.id}"><th scope="row">${esc(p.titulo || p.nome)}</th>
+        <td><input class="g-input" type="number" min="0" data-k="preco" value="${p.preco}"></td>
+        <td><input class="g-input" type="number" min="0" data-k="estoque" value="${p.estoque === null ? '' : p.estoque}"></td>
+        <td><input class="g-input" type="number" min="1" data-k="por_pessoa" value="${p.por_pessoa === null ? '' : p.por_pessoa}"></td>
+        <td><select class="g-select" data-k="requer_ranking"><option value="">Nenhum</option>${faixas.map((f) =>
+          `<option value="${f.id}" ${p.requer_ranking === f.id ? 'selected' : ''}>${esc(f.nome)}</option>`).join('')}</select></td>
+        <td><select class="g-select" data-k="status"><option value="disponivel" ${p.status === 'disponivel' ? 'selected' : ''}>Disponível</option>
+          <option value="em_breve" ${p.status === 'em_breve' ? 'selected' : ''}>Em breve</option></select></td>
+        <td><button class="botao botao--fantasma g-mini" data-salvar="${p.id}">Salvar</button></td></tr>`).join('')}</tbody>`;
+    $('g-produtos').querySelectorAll('[data-salvar]').forEach((b) => b.addEventListener('click', async () => {
+      const tr = b.closest('tr');
+      const v = (k) => tr.querySelector(`[data-k="${k}"]`).value;
+      const n = (k) => (v(k) === '' ? null : parseInt(v(k), 10));
+      try {
+        await q(sb.from('loja_produtos').update({
+          preco: n('preco') || 0, estoque: n('estoque'), por_pessoa: n('por_pessoa'),
+          requer_ranking: v('requer_ranking') || null, status: v('status')
+        }).eq('id', b.dataset.salvar).select('id'));
+        recado('Produto atualizado.', 'ok');
+        avisarPainel();
+      } catch (e) { recado(e.message, 'erro'); }
+    }));
+  }
+
+  /* ----------------------------------------------------------- associados */
+
+  async function abrirAssociados() {
+    base.associados = await q(sb.from('associados').select('*').order('nome'));
+    const areas = [...new Set(base.associados.map((a) => a.area).filter(Boolean))].sort();
+    $('g-areas').innerHTML = areas.map((a) => `<option value="${esc(a)}">`).join('');
+    $('g-assoc').innerHTML = `<thead><tr><th>Nome</th><th>E-mail</th><th>Área</th><th>Papel</th><th>No ranking</th><th>Ativo</th><th>Senha</th><th></th></tr></thead>
+      <tbody>${base.associados.map((a) => `<tr data-a="${a.id}">
+        <td><input class="g-input" data-k="nome" value="${esc(a.nome)}" style="width:190px"></td>
+        <td style="text-align:left">${esc(a.email)}</td>
+        <td><input class="g-input" data-k="area" list="g-areas" value="${esc(a.area || '')}" style="width:120px"></td>
+        <td><select class="g-select" data-k="papel">${['associado', 'diretor', 'presidencia'].map((p) =>
+          `<option value="${p}" ${a.papel === p ? 'selected' : ''}>${p === 'presidencia' ? 'Presidência' : p === 'diretor' ? 'Diretor' : 'Associado'}</option>`).join('')}</select></td>
+        <td><input type="checkbox" data-k="avaliado" ${a.avaliado ? 'checked' : ''}></td>
+        <td><input type="checkbox" data-k="ativo" ${a.ativo ? 'checked' : ''}></td>
+        <td>${a.user_id ? '<span class="g-chip g-chip--ok">criada</span>' : '<span class="g-chip g-chip--pend">ainda não</span>'}</td>
+        <td><button class="botao botao--fantasma g-mini" data-salvar="${a.id}">Salvar</button></td></tr>`).join('')}</tbody>`;
+    $('g-assoc').querySelectorAll('[data-salvar]').forEach((b) => b.addEventListener('click', async () => {
+      const tr = b.closest('tr');
+      const el = (k) => tr.querySelector(`[data-k="${k}"]`);
+      try {
+        await q(sb.from('associados').update({
+          nome: el('nome').value.trim(), area: el('area').value.trim() || null, papel: el('papel').value,
+          avaliado: el('avaliado').checked, ativo: el('ativo').checked
+        }).eq('id', b.dataset.salvar).select('id'));
+        recado('Associado atualizado.', 'ok');
+        avisarPainel();
+      } catch (e) { recado(e.message, 'erro'); }
+    }));
+  }
+
+  async function novoAssociado(ev) {
+    ev.preventDefault();
+    try {
+      await q(sb.from('associados').insert({
+        nome: $('g-n-nome').value.trim(), email: $('g-n-email').value.trim().toLowerCase(),
+        area: $('g-n-area').value.trim() || null
+      }).select('id'));
+      recado('Associado adicionado. Ele já pode criar a senha em "Primeiro acesso".', 'ok');
+      ['g-n-nome', 'g-n-email', 'g-n-area'].forEach((i) => { $(i).value = ''; });
+      abrirAssociados();
+    } catch (e) { recado('Não foi possível adicionar: ' + e.message, 'erro'); }
+  }
+
+  /* ------------------------------------------------------------ navegação */
+
+  const ABRIR = {
+    avaliacoes: abrirAvaliacoes, penalidades: abrirPenalidades, xp: abrirXP,
+    ocorrencias: abrirOcorrencias, loja: abrirLoja, associados: abrirAssociados
+  };
+
+  async function irPara(nome) {
+    aba = nome;
+    document.querySelectorAll('#gestao [data-g]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.g === nome)));
+    document.querySelectorAll('#gestao [data-gp]').forEach((p) => { p.hidden = p.dataset.gp !== nome; });
+    recado('');
+    try { await ABRIR[nome](); } catch (e) { recado('Não foi possível carregar: ' + e.message, 'erro'); }
+  }
+
+  function montarPeriodo() {
+    $('g-mes').innerHTML = MESES.map((m, i) => `<option value="${i + 1}" ${i + 1 === mes ? 'selected' : ''}>${m}</option>`).join('');
+    const anos = [ano - 1, ano, ano + 1];
+    $('g-ano').innerHTML = anos.map((a) => `<option ${a === ano ? 'selected' : ''}>${a}</option>`).join('');
+    $('g-mes').addEventListener('change', () => { mes = Number($('g-mes').value); irPara(aba); });
+    $('g-ano').addEventListener('change', () => { ano = Number($('g-ano').value); irPara(aba); });
+  }
+
+  function iniciar() {
+    if (iniciado) return;
+    iniciado = true;
+    montarPeriodo();
+    document.querySelectorAll('#gestao [data-g]').forEach((b) => b.addEventListener('click', () => irPara(b.dataset.g)));
+    $('g-pen-salvar').addEventListener('click', salvarPenalidades);
+    $('g-xp-form').addEventListener('submit', lancarXP);
+    $('g-xp-obj').addEventListener('change', totalXP);
+    $('g-xp-qtd').addEventListener('input', totalXP);
+    $('g-oc-form').addEventListener('submit', registrarOcorrencia);
+    $('g-assoc-novo').addEventListener('submit', novoAssociado);
+    $('g-branco').addEventListener('click', () => formulario('pdf', null, {}));
+  }
+
+  /* Chamado depois do login: mostra o botão só para diretoria e presidência. */
+  function preparar(membro) {
+    eu = membro;
+    const gestor = eu && (eu.papel === 'diretor' || eu.papel === 'presidencia');
+    $('abrir-gestao').hidden = !gestor;
+    if (!gestor) fechar();
+  }
+
+  async function abrir() {
+    if (!eu) return;
+    iniciar();
+    $('conteudo').hidden = true;
+    $('gestao').hidden = false;
+    $('abrir-gestao').textContent = 'Meu painel';
+    document.querySelectorAll('#gestao [data-presidencia]').forEach((b) => { b.hidden = !presidencia(); });
+    $('g-quem').textContent = presidencia() ? 'Presidência · você vê e lança dados de toda a equipe'
+      : `Diretoria · área ${eu.area || 'não definida'}`;
+    recado('Carregando…');
+    try { await carregarBase(); } catch (e) { return recado('Não foi possível carregar: ' + e.message, 'erro'); }
+    irPara(aba);
+    window.scrollTo(0, 0);
+  }
+
+  function fechar() {
+    if (!$('gestao')) return;
+    $('gestao').hidden = true;
+    $('conteudo').hidden = false;
+    $('abrir-gestao').textContent = 'Gestão';
+    if (window.spjRedesenhar) setTimeout(window.spjRedesenhar, 30);
+  }
+
+  function alternar() { if ($('gestao').hidden) abrir(); else fechar(); }
+
+  return { preparar: preparar, abrir: abrir, fechar: fechar, alternar: alternar };
 })();
 </script>
 <script>
@@ -3011,7 +3885,8 @@ function linhas(alvo, caixaDica, dados, animar = false) {
     const largura = W - L - R;
     const altura = H - T - B;
     const x = (i) => L + (n === 1 ? largura / 2 : (largura * i) / (n - 1));
-    const y = (v) => T + altura - (altura * v) / 5;
+    const ESC = SPJ.config.escala_max || 5;
+    const y = (v) => T + altura - (altura * v) / ESC;
 
     const svg = el('svg', {
       viewBox: `0 0 ${W} ${H}`, width: '100%', height: H,
@@ -3023,7 +3898,7 @@ function linhas(alvo, caixaDica, dados, animar = false) {
     const superficie = token('--superficie');
 
     // grade horizontal — fio de cabelo, sólido, recessivo
-    for (let v = 0; v <= 5; v++) {
+    for (let v = 0; v <= ESC; v++) {
       svg.appendChild(el('line', {
         x1: L, x2: L + largura, y1: y(v), y2: y(v),
         stroke: v === 0 ? eixo : grade, 'stroke-width': 1
@@ -3191,7 +4066,7 @@ function faisca(alvo, valores, ate, cor, animar = false) {
   const H = 30, P = 3;
   const n = ate + 1;
   const x = (i) => P + ((W - P * 2) * i) / Math.max(n - 1, 1);
-  const y = (v) => H - P - ((H - P * 2) * v) / 5;
+  const y = (v) => H - P - ((H - P * 2) * v) / (SPJ.config.escala_max || 5);
   const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, width: '100%', height: H, 'aria-hidden': 'true' });
 
   const pontos = [];
@@ -3301,7 +4176,7 @@ function montarLogo(alvo, variante = 'auto') {
   const ORDEM_CRITERIOS = ['Entregas', 'Produtividade', 'Organização', 'Proatividade'];
   const indiceCor = (nome, i) => {
     const k = ORDEM_CRITERIOS.indexOf(nome);
-    return (k >= 0 ? k : i) + 1;
+    return ((k >= 0 ? k : i) % 4) + 1;
   };
   const corDoCriterio = (nome, i) => `var(--serie-${indiceCor(nome, i)})`;
   const corResolvida = (nome, i) => getComputedStyle(document.documentElement)
@@ -3428,10 +4303,10 @@ function montarLogo(alvo, variante = 'auto') {
       $('media-valor').innerHTML = '<span style="font-size:26px">Sem avaliação</span>';
       $('media-nota').textContent = `Nenhuma nota lançada até ${dados.mes_referencia.nome}`;
     } else {
-      $('media-valor').innerHTML = '<span id="media-num">0</span><span> / 5</span>';
+      $('media-valor').innerHTML = '<span id="media-num">0</span><span> / 4</span>';
       contar($('media-num'), dados.media);
       $('media-nota').textContent =
-        `Média de ${dados.mes_referencia.nome} · direto da planilha`;
+        `Média de ${dados.mes_referencia.nome} · lançada pela diretoria`;
     }
 
     const proximo = dados.trofeus.find((t) => !t.conquistado);
@@ -3467,7 +4342,7 @@ function montarLogo(alvo, variante = 'auto') {
   }
 
   function desenharDestaques() {
-    $('destaques-mes').textContent = `Maiores médias de ${dados.mes_referencia.nome}`;
+    $('destaques-mes').textContent = `Maiores médias de ${dados.mes_referencia.nome} e quem mais evoluiu`;
 
     $('destaques').innerHTML = [0, 1, 2].map((i) => {
       const lugar = i + 1;
@@ -3491,10 +4366,35 @@ function montarLogo(alvo, variante = 'auto') {
           <div>
             <p class="podio__posicao">${lugar}º lugar${souEu ? ' · você' : ''}</p>
             <p class="podio__nome">${d.nome}</p>
-            <p class="podio__media">${num(d.media)}<span> / 5</span>${d.ranking ? ` · ${d.ranking}` : ''}</p>
+            <p class="podio__media">${num(d.media)}<span> / 4</span>${d.ranking ? ` · ${d.ranking}` : ''}</p>
           </div>
         </article>`;
-    }).join('');
+    }).join('') + cartaoEvolucao();
+  }
+
+  /* O quarto cartão: quem mais evoluiu, mesmo fora do pódio. */
+  function cartaoEvolucao() {
+    const e = dados.evolucao;
+    if (!e) {
+      return `
+        <article class="podio__item podio__item--vazio podio__item--evo">
+          ${retrato('↑', null, '—', null)}
+          <div>
+            <p class="podio__posicao">Maior evolução</p>
+            <p class="podio__nome">Ninguém subiu a nota ainda</p>
+          </div>
+        </article>`;
+    }
+    const souEu = e.nome === dados.membro.nome;
+    return `
+      <article class="podio__item podio__item--evo" ${souEu ? 'data-eu="1"' : ''}>
+        ${retrato('↑', e.foto, e.iniciais, e.nome)}
+        <div>
+          <p class="podio__posicao">Maior evolução${souEu ? ' · você' : ''}</p>
+          <p class="podio__nome">${e.nome}</p>
+          <p class="podio__media"><b class="podio__delta">+${num(e.delta)}</b> vs. ${e.mes_anterior} · ${num(e.media)}<span> / 4</span></p>
+        </div>
+      </article>`;
   }
 
   function desenharPlacas() {
@@ -3512,7 +4412,7 @@ function montarLogo(alvo, variante = 'auto') {
             <span class="placa__chave" style="background:${corDoCriterio(c.nome, i)}"></span>
             <span class="placa__nome">${c.nome}</span>
           </div>
-          <p class="placa__valor">${num(c.valor)}<small> / 5</small></p>
+          <p class="placa__valor">${num(c.valor)}<small> / 4</small></p>
           <p class="placa__nivel">${c.nivel || 'Não avaliado neste mês'}</p>
           <p class="placa__delta" data-dir="${dir}">${deltaTexto}</p>
           <div class="placa__faisca" id="faisca-${i}"></div>
@@ -3527,9 +4427,7 @@ function montarLogo(alvo, variante = 'auto') {
   }
 
   function desenharGrafico() {
-    const series = dados.criterios.map((c, i) => ({
-      nome: c.nome, cor: corResolvida(c.nome, i), valores: c.serie
-    }));
+    const series = [{ nome: 'Nota do mês', cor: corResolvida('', 0), valores: dados.media_serie }];
     const conjunto = {
       meses: dados.meses, mesesLongos: MESES_LONGOS,
       ate: dados.mes_referencia.indice, series
@@ -3545,7 +4443,7 @@ function montarLogo(alvo, variante = 'auto') {
 
     window.spjRedesenhar = () => {
       if (!dados) return;
-      const s = dados.criterios.map((c, i) => ({ nome: c.nome, cor: corResolvida(c.nome, i), valores: c.serie }));
+      const s = [{ nome: 'Nota do mês', cor: corResolvida('', 0), valores: dados.media_serie }];
       linhas($('grafico'), $('dica'), Object.assign({}, conjunto, { series: s }));
       $('legenda').innerHTML = s.map((x) => `
         <span class="legenda__item"><span class="legenda__tra" style="background:${x.cor}"></span>${x.nome}</span>`).join('');
@@ -3786,8 +4684,8 @@ function montarLogo(alvo, variante = 'auto') {
     botao.textContent = 'Confirmar resgate';
     botao.classList.add('botao--ouro');
     recado.textContent = produto.preco > 0
-      ? `Serão debitados ${produto.preco} XP e o resgate será registrado na planilha.`
-      : 'O resgate será registrado na planilha.';
+      ? `Serão debitados ${produto.preco} XP e o resgate será registrado.`
+      : 'O resgate será registrado.';
     setTimeout(() => {
       if (botao.dataset.armado !== '1') return;
       botao.dataset.armado = '0';
@@ -3811,12 +4709,12 @@ function montarLogo(alvo, variante = 'auto') {
         data: r.compra.data, xp: produto.preco
       });
       ocupado = false;
-      await SPJ.Fonte.conferir(true);     // relê a planilha já com a compra
+      await SPJ.Fonte.conferir(true);     // relê o banco já com a compra
       aplicar(SPJ.Fonte.grids(), true);
       const alvo = document.querySelector(`[data-recado="${id}"]`);
       if (alvo) {
         alvo.style.color = 'var(--bom-texto)';
-        alvo.textContent = 'Resgate concluído e gravado na planilha.';
+        alvo.textContent = 'Resgate concluído.';
       }
     } catch (e) {
       ocupado = false;
@@ -3873,7 +4771,7 @@ function montarLogo(alvo, variante = 'auto') {
 
   function desenhar() {
     $('topo-nome').textContent = dados.membro.nome;
-    $('topo-atualizado').textContent = `planilha lida às ${dados.atualizado_em.slice(-5)}`;
+    $('topo-atualizado').textContent = `atualizado às ${dados.atualizado_em.slice(-5)}`;
 
     // o app precisa estar visível ANTES de desenhar: o gráfico mede a largura
     // do container, e um container escondido mede zero
@@ -3919,7 +4817,7 @@ function montarLogo(alvo, variante = 'auto') {
     const novo = SPJ.Dominio.painel(est, cfg, email, pendentes);
     if (!novo) {
       $('carregando').textContent =
-        'Seu e-mail não aparece na aba de associados da planilha. Procure a diretoria.';
+        'Seu e-mail não está na lista de associados. Procure a diretoria.';
       return;
     }
 
@@ -3975,6 +4873,22 @@ function montarLogo(alvo, variante = 'auto') {
   const form = $('form');
   const erro = $('erro');
 
+  /* Primeiro acesso: a mesma tela, pedindo a senha duas vezes. */
+  let modoCriar = false;
+  function trocarModo(criar) {
+    modoCriar = criar;
+    $('login-titulo').textContent = criar ? 'Criar sua senha' : 'Entrar na plataforma';
+    $('login-sub').textContent = criar
+      ? 'Use o e-mail cadastrado na diretoria e escolha uma senha de pelo menos 6 caracteres.'
+      : 'Use o e-mail cadastrado na diretoria.';
+    $('campo-senha2').hidden = !criar;
+    $('senha').autocomplete = criar ? 'new-password' : 'current-password';
+    $('enviar').textContent = criar ? 'Criar senha e entrar' : 'Entrar';
+    $('modo-login').textContent = criar ? 'Já tenho senha. Entrar' : 'Primeiro acesso? Crie sua senha';
+    erro.dataset.visivel = '0';
+  }
+  $('modo-login').addEventListener('click', (ev) => { ev.preventDefault(); trocarModo(!modoCriar); });
+
   function falhar(msg) {
     $('erro-texto').textContent = msg;
     erro.dataset.visivel = '1';
@@ -3987,24 +4901,30 @@ function montarLogo(alvo, variante = 'auto') {
     const eMail = $('email').value.trim();
     const senha = $('senha').value;
     if (!eMail || !senha) return falhar('Preencha e-mail e senha.');
+    if (modoCriar && senha.length < 6) return falhar('A senha precisa ter pelo menos 6 caracteres.');
+    if (modoCriar && senha !== $('senha2').value) return falhar('As duas senhas não são iguais.');
 
     const enviar = $('enviar');
     enviar.disabled = true;
-    enviar.textContent = 'Entrando…';
+    enviar.textContent = modoCriar ? 'Criando…' : 'Entrando…';
     try {
-      const membro = await SPJ.Api.entrar(eMail, senha);
+      const membro = modoCriar ? await SPJ.Api.criarSenha(eMail, senha) : await SPJ.Api.entrar(eMail, senha);
       email = membro.email;
       $('senha').value = '';
       abrirPainel();
     } catch (e) {
       falhar(e.message);
       enviar.disabled = false;
-      enviar.textContent = 'Entrar';
+      enviar.textContent = modoCriar ? 'Criar senha e entrar' : 'Entrar';
     }
   });
 
+  $('abrir-gestao').addEventListener('click', () => SPJ.Gestao.alternar());
+
   $('sair').addEventListener('click', () => {
+    SPJ.Gestao.fechar();
     SPJ.Api.sair();
+    $('abrir-gestao').hidden = true;
     email = null;
     dados = null;
     ultimoPainel = '';
@@ -4012,23 +4932,27 @@ function montarLogo(alvo, variante = 'auto') {
     $('tela-regimento').hidden = true;
     $('tela-login').hidden = false;
     $('enviar').disabled = false;
-    $('enviar').textContent = 'Entrar';
+    trocarModo(false);
   });
 
+  let acompanhando = false;
   async function abrirPainel() {
+    SPJ.Gestao.preparar(SPJ.Api.eu());
+    $('senha2').value = '';
     $('tela-login').hidden = true;
     $('tela-painel').hidden = false;
     $('carregando').hidden = false;
     $('app').hidden = true;
 
-    SPJ.Fonte.aoMudar((grids) => aplicar(grids));
+    if (!acompanhando) SPJ.Fonte.aoMudar((grids) => aplicar(grids));
+    acompanhando = true;
     try {
       // a leitura já pode ter começado enquanto a senha era digitada
       const grids = SPJ.Fonte.grids() || await SPJ.Fonte.ler(false);
       aplicar(grids, true);
     } catch (e) {
       $('carregando').textContent =
-        'Não foi possível ler a planilha agora. Confira a conexão e atualize a página.';
+        'Não foi possível carregar seus dados agora. Confira a conexão e atualize a página.';
       return;
     }
     SPJ.Fonte.acompanhar();
@@ -4043,7 +4967,8 @@ function montarLogo(alvo, variante = 'auto') {
 
   // adianta a leitura da planilha enquanto o associado digita a senha: quando
   // ele entrar, o painel abre sem espera
-  SPJ.Fonte.ler(false).catch(() => {});
+  // quem já entrou neste navegador volta direto para o painel
+  SPJ.Api.retomar().then((m) => { if (m) { email = m.email; abrirPainel(); } }).catch(() => {});
 })();
 </script>
 </body>
