@@ -946,8 +946,130 @@ section.secao:has(> .cartao > .mentor) { display: none; }
 :root[data-tema="escuro"] .regra-link:not(.regra-link--clara) { color: var(--dourado); }
 .reg__indice a.reg__indice--gam { border-color: var(--dourado); color: var(--tinta); font-weight: 700; }
 #gam { margin-top: 46px; scroll-margin-top: 78px; }
+
+/* ========================================================= BRAND BOOK SPJ =
+   Brand Book Saint Paul Jr v1.0 (out/2026): preto #191818, verde-petróleo
+   #184848, branco, areia #F8F5E6 e petróleo claro #9FD3CB sobre fundo escuro.
+   Títulos em Inter Tight 800, texto em Inter. O grafismo é o ponto do j:
+   cortado no canto, como marcador de item e ponto a ponto. Sem gradiente,
+   contorno ou sombra no grafismo. */
+
+:root {
+  --preto: #191818;
+  --petroleo: #184848;
+  --petroleo-900: #191818;
+  --petroleo-800: #193B3D;
+  --petroleo-700: #123A3A;
+  --petroleo-300: #9FD3CB;
+  --petroleo-claro: #9FD3CB;
+  --areia: #F8F5E6;
+  --areia-texto: #193B3D;
+  --dourado: #9FD3CB;
+  --dourado-texto: #184848;
+
+  --plano: #F8F5E6;
+  --superficie: #FFFFFF;
+  --superficie-2: #FBFAF4;
+  --tinta: #191818;
+  --tinta-2: #3F4746;
+  --tinta-mud: #5F6867;
+  --grade: #ECE8D8;
+  --eixo: #D3CEB9;
+  --borda: rgba(25, 24, 24, .11);
+  --sombra: none;
+  --serie-1: #184848; --serie-2: #184848; --serie-3: #184848; --serie-4: #184848;
+
+  --raio: 6px;
+  --raio-lg: 8px;
+  --fonte: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fonte-titulo: "Inter Tight", "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-tema="claro"])) {
+    --plano: #121212; --superficie: #191818; --superficie-2: #202020;
+    --tinta: #FFFFFF; --tinta-2: #C9D0CF; --tinta-mud: #929A99;
+    --grade: #2A2A2A; --eixo: #3A3A3A; --borda: rgba(255, 255, 255, .12);
+    --dourado-texto: #9FD3CB; --serie-1: #9FD3CB; --serie-2: #9FD3CB; --serie-3: #9FD3CB; --serie-4: #9FD3CB;
+  }
+}
+:root[data-tema="escuro"] {
+  --plano: #121212; --superficie: #191818; --superficie-2: #202020;
+  --tinta: #FFFFFF; --tinta-2: #C9D0CF; --tinta-mud: #929A99;
+  --grade: #2A2A2A; --eixo: #3A3A3A; --borda: rgba(255, 255, 255, .12);
+  --dourado-texto: #9FD3CB; --serie-1: #9FD3CB; --serie-2: #9FD3CB; --serie-3: #9FD3CB; --serie-4: #9FD3CB;
+}
+
+/* tipografia: títulos grotescos, pesados e fechados */
+h1, h2, .patente__nome, .figura-heroi, .saldo__valor, .placa__valor,
+.login__frase h2, .reg__item h2, .advertencia__valor {
+  font-family: var(--fonte-titulo); font-weight: 800; letter-spacing: -.03em;
+}
+h1 { font-size: 34px; line-height: 1.05; }
+h3 { font-family: var(--fonte-titulo); font-weight: 700; letter-spacing: -.015em; }
+.botao, .aba, .rotulo { font-weight: 600; }
+.rotulo { color: var(--petroleo); letter-spacing: .12em; }
+:root[data-tema="escuro"] .rotulo { color: var(--petroleo-claro); }
+@media (prefers-color-scheme: dark) { :root:where(:not([data-tema="claro"])) .rotulo { color: var(--petroleo-claro); } }
+
+/* botões: principal em petróleo; o "ouro" vira o petróleo claro */
+.botao--ouro { background: var(--petroleo-claro); color: var(--areia-texto); }
+.botao--ouro:hover { background: #B6E0D9; }
+.aba[aria-selected="true"] { border-bottom-color: var(--petroleo); }
+
+/* cartões planos, sem sombra */
+.cartao, .podio__item, .placa, .produto, .trofeu { box-shadow: none; }
+.podio__item[data-lugar="1"] { border-color: var(--petroleo); }
+.podio__item[data-eu="1"] { box-shadow: inset 0 0 0 2px var(--petroleo); }
+.podio__retrato[data-lugar="1"] { --medalha: #184848; }
+
+/* ------------------------------------------- grafismo: ponto cortado no canto */
+.login__padrao, .heroi__padrao, .saldo__padrao { display: none !important; }
+.login__marca, .heroi, .saldo { background: var(--preto); }
+.login__marca::after, .heroi::after, .saldo::after {
+  content: ""; position: absolute; border-radius: 50%; background: var(--petroleo);
+  pointer-events: none;
+}
+.login__marca::after { width: 420px; height: 420px; right: -170px; top: -170px; }
+.heroi::after { width: 230px; height: 230px; right: -105px; top: -115px; }
+.heroi .trofeu { background: #222121; position: relative; z-index: 1; }
+.saldo { background: var(--petroleo); }
+.saldo::after { width: 220px; height: 220px; right: -90px; top: -120px; background: var(--preto); }
+.heroi__conteudo, .login__logo, .login__frase, .login__rodape, .saldo__bloco, .saldo__acao { z-index: 1; }
+.login__frase h2 { border-left-color: var(--petroleo-claro); }
+.heroi__proximo b { color: var(--petroleo-claro); }
+
+/* ------------------------------------------- grafismo: ponto como marcador */
+.reg__item ul { list-style: none; padding-left: 0; }
+.reg__item li { position: relative; padding-left: 20px; }
+.reg__item li::before {
+  content: ""; position: absolute; left: 2px; top: .55em; width: 9px; height: 9px;
+  border-radius: 50%; background: var(--petroleo);
+}
+:root[data-tema="escuro"] .reg__item li::before { background: var(--petroleo-claro); }
+.reg__num { background: var(--petroleo); color: #fff; border-radius: 50%; }
+.reg__item--chave { background: var(--areia); }
+:root[data-tema="escuro"] .reg__item--chave { background: var(--superficie-2); }
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-tema="claro"])) .reg__item--chave { background: var(--superficie-2); }
+}
+
+/* ------------------------------------------- grafismo: ponto a ponto */
+.ponto-a-ponto { display: flex; align-items: flex-start; margin: 18px 0 16px; max-width: 640px; }
+.ponto-a-ponto__etapa { flex: none; display: grid; justify-items: center; gap: 6px; text-align: center; width: 128px; }
+.ponto-a-ponto__etapa i { display: block; border-radius: 50%; background: var(--petroleo); }
+.ponto-a-ponto__etapa:nth-child(1) i { width: 12px; height: 12px; margin-top: 6px; }
+.ponto-a-ponto__etapa:nth-child(3) i { width: 18px; height: 18px; margin-top: 3px; }
+.ponto-a-ponto__etapa:nth-child(5) i { width: 24px; height: 24px; }
+.ponto-a-ponto__etapa b { font-size: 13px; color: var(--tinta); }
+.ponto-a-ponto__etapa small { font-size: 12px; color: var(--tinta-mud); line-height: 1.35; }
+.ponto-a-ponto__traco { flex: 1; height: 3px; background: var(--petroleo); margin-top: 11px; min-width: 24px; }
+:root[data-tema="escuro"] .ponto-a-ponto__etapa i, :root[data-tema="escuro"] .ponto-a-ponto__traco { background: var(--petroleo-claro); }
+@media (max-width: 560px) { .ponto-a-ponto__etapa { width: 92px; } }
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -1767,6 +1889,13 @@ section.secao:has(> .cartao > .mentor) { display: none; }
             diretoria não entram no ranking.</p>
           <p>A avaliação de cada mês deve ser lançada na plataforma <b>até o dia 5 do mês
             seguinte</b>. A avaliação de outubro, por exemplo, é lançada até 5 de novembro.</p>
+          <div class="ponto-a-ponto" aria-label="Linha do tempo de cada mês avaliado">
+            <div class="ponto-a-ponto__etapa"><i></i><b>Fim do mês</b><small>o mês avaliado fecha</small></div>
+            <div class="ponto-a-ponto__traco"></div>
+            <div class="ponto-a-ponto__etapa"><i></i><b>Até o dia 5</b><small>o diretor lança a avaliação</small></div>
+            <div class="ponto-a-ponto__traco"></div>
+            <div class="ponto-a-ponto__etapa"><i></i><b>Até 1 semana depois</b><small>prazo para contestar a nota</small></div>
+          </div>
           <p>O avaliador dá uma nota de 1 a 4 em cada uma das 12 competências: Entregas,
             Criatividade, Curiosidade, Iniciativa, Planejamento / Organização, Cooperação e
             Trabalho em Grupo, Maturidade / Postura, Comunicação, Assiduidade, Eficiência /
