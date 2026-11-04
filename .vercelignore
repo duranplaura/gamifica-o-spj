@@ -1,0 +1,14 @@
+# A Vercel serve só dist/ (outputDirectory no vercel.json). Todo o resto é
+# fonte e não precisa sair daqui — inclusive coisas que não devem:
+# o regimento em PDF, a foto original da equipe e a versão Ruby antiga.
+
+app/
+apps-script/
+ferramentas/
+legado/
+config/
+scripts/
+servidor.rb
+iniciar.command
+*.md
+.claude/
