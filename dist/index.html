@@ -938,6 +938,14 @@ section.secao:has(> .cartao > .mentor) { display: none; }
 .podio__delta { color: var(--bom-texto); font-weight: 700; }
 @media (max-width: 1000px) { .podio { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .podio { grid-template-columns: 1fr; } }
+
+.regra-link { appearance: none; background: none; border: 0; padding: 0; cursor: pointer; font: inherit;
+  font-size: 12.5px; font-weight: 500; color: var(--petroleo); text-decoration: underline; text-underline-offset: 3px; }
+.regra-link--clara { color: rgba(255,255,255,.78); margin-top: 8px; }
+.regra-link:hover { color: var(--dourado); }
+:root[data-tema="escuro"] .regra-link:not(.regra-link--clara) { color: var(--dourado); }
+.reg__indice a.reg__indice--gam { border-color: var(--dourado); color: var(--tinta); font-weight: 700; }
+#gam { margin-top: 46px; scroll-margin-top: 78px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 </head>
@@ -1040,6 +1048,7 @@ section.secao:has(> .cartao > .mentor) { display: none; }
 
           <div class="figura-heroi" id="media-valor">—<span> / 4</span></div>
           <p class="heroi__nota" id="media-nota"></p>
+          <button type="button" class="regra-link regra-link--clara" data-regra="#gam-3">Como a nota é calculada?</button>
 
           <div class="heroi__proximo" id="proximo-nivel"></div>
         </div>
@@ -1184,7 +1193,7 @@ section.secao:has(> .cartao > .mentor) { display: none; }
       </section>
 
       <section class="secao">
-        <div class="secao__cabeca"><h2>Recompensas</h2></div>
+        <div class="secao__cabeca"><h2>Recompensas</h2><button type="button" class="regra-link" data-regra="#gam-5">Como funcionam XP e loja</button></div>
         <div class="produtos" id="produtos"></div>
       </section>
 
@@ -1402,6 +1411,7 @@ section.secao:has(> .cartao > .mentor) { display: none; }
       <a href="#reg-16">16 · Responsabilidade</a>
       <a href="#reg-17">17 · Finalidade</a>
       <a href="#reg-18">18 · Desligamento e penalidades</a>
+      <a href="#gam" class="reg__indice--gam">Regras da gamificação</a>
     </nav>
 
     <div class="cartao reg">
@@ -1717,6 +1727,144 @@ section.secao:has(> .cartao > .mentor) { display: none; }
       </div>
     </div>
   </section>
+
+  <section class="secao" id="gam">
+    <div class="reg__capa">
+      <p class="rotulo">Plataforma de gamificação</p>
+      <h1>Regras da gamificação</h1>
+      <p class="subtitulo">Como funcionam a avaliação mensal, a nota do mês, o ranking, o XP,
+        a loja e as penalidades na plataforma da Saint Paul Jr.</p>
+      <button class="botao botao--fantasma" id="regras-pdf" style="margin-top:16px;padding:9px 15px;font-size:13.5px">Baixar as regras em PDF</button>
+    </div>
+
+    <nav class="reg__indice" aria-label="Itens das regras da gamificação">
+      <a href="#gam-1">1 · Para que serve</a>
+      <a href="#gam-2">2 · Avaliação mensal</a>
+      <a href="#gam-3">3 · Nota do mês e ranking</a>
+      <a href="#gam-4">4 · Contestação de nota</a>
+      <a href="#gam-5">5 · XP e loja</a>
+      <a href="#gam-6">6 · Penalidades</a>
+      <a href="#gam-7">7 · Quem vê o quê</a>
+      <a href="#gam-8">8 · Histórico</a>
+    </nav>
+
+    <div class="cartao reg" id="gam-corpo">
+      <div class="cartao__corpo">
+
+        <article class="reg__item" id="gam-1">
+          <h2><span class="reg__num">1</span>Para que serve</h2>
+          <p>A gamificação reconhece o desempenho de cada associado ao longo do mandato. Todo
+            mês o associado recebe uma avaliação da diretoria, que vira a nota do mês. A nota
+            define a faixa do ranking e o pódio do mês. Atividades extras rendem XP, que pode
+            ser trocado por recompensas na loja.</p>
+        </article>
+
+        <article class="reg__item reg__item--chave" id="gam-2">
+          <h2><span class="reg__num">2</span>Avaliação mensal</h2>
+          <p>Cada associado é avaliado uma vez por mês pelo diretor da sua área, no formulário
+            oficial de Avaliação de Desempenho. As áreas sem diretor são avaliadas pela
+            Presidência ou pela Vice-presidência. Ninguém avalia a si mesmo, e os membros da
+            diretoria não entram no ranking.</p>
+          <p>A avaliação de cada mês deve ser lançada na plataforma <b>até o dia 5 do mês
+            seguinte</b>. A avaliação de outubro, por exemplo, é lançada até 5 de novembro.</p>
+          <p>O avaliador dá uma nota de 1 a 4 em cada uma das 12 competências: Entregas,
+            Criatividade, Curiosidade, Iniciativa, Planejamento / Organização, Cooperação e
+            Trabalho em Grupo, Maturidade / Postura, Comunicação, Assiduidade, Eficiência /
+            Qualidade no Trabalho, Conhecimento Teórico e Resistência à Pressão. Os conceitos
+            são:</p>
+          <ul>
+            <li><b>1</b> Abaixo do exigido, atuação comprometeu o alcance dos resultados.</li>
+            <li><b>2</b> Corresponde razoavelmente ao exigido, mas necessita desenvolver-se.</li>
+            <li><b>3</b> Nível adequado, contribui de acordo com as expectativas.</li>
+            <li><b>4</b> Acima do nível de exigência, superando os objetivos e expectativas.</li>
+          </ul>
+          <p>Junto com as notas, o avaliador registra as características positivas, os pontos
+            a desenvolver, as inovações do período e outros comentários. O associado preenche
+            a autoavaliação (Parte 1 do formulário) na aba <b>Minha avaliação</b>, e ela fica
+            visível para o avaliador. Na mesma aba, o associado baixa o formulário completo em
+            Word ou PDF.</p>
+        </article>
+
+        <article class="reg__item reg__item--chave" id="gam-3">
+          <h2><span class="reg__num">3</span>Nota do mês e ranking</h2>
+          <p>A nota do mês é a média simples das 12 competências, com duas casas decimais. A
+            nota define a faixa do ranking:</p>
+          <ul>
+            <li><b>Bronze</b> a partir de 2,50</li>
+            <li><b>Prata</b> a partir de 3,25</li>
+            <li><b>Ouro</b> a partir de 3,60</li>
+            <li><b>Platina</b> a partir de 3,85</li>
+            <li><b>Diamante</b> com 4,00, nota máxima em todas as competências</li>
+          </ul>
+          <p>O pódio de <b>Associados do mês</b> mostra as três maiores notas do mês. Em caso
+            de empate, a ordem segue o nome. O cartão de <b>Maior evolução</b> destaca quem
+            mais subiu a nota em relação ao mês anterior. Só entra quem tem nota nos dois
+            meses e subiu.</p>
+          <p>A faixa do ranking também libera itens da loja que exigem uma faixa mínima.</p>
+        </article>
+
+        <article class="reg__item reg__item--chave" id="gam-4">
+          <h2><span class="reg__num">4</span>Contestação de nota</h2>
+          <p>O associado pode contestar a sua avaliação <b>em até 1 (uma) semana depois do
+            lançamento</b>, diretamente com o diretor da sua área. Nas áreas sem diretor, a
+            contestação é feita com quem avaliou.</p>
+          <p>Se o diretor revisar a nota, ele mesmo corrige a avaliação na plataforma, e a nota
+            do mês, a faixa e o ranking se atualizam na hora. Passado esse prazo, a avaliação
+            do mês fica mantida.</p>
+        </article>
+
+        <article class="reg__item" id="gam-5">
+          <h2><span class="reg__num">5</span>XP e loja</h2>
+          <p>O XP é ganho com atividades além da rotina e é lançado pela diretoria. Cada tipo de
+            atividade tem um multiplicador:</p>
+          <ul>
+            <li><b>Trazer leads</b> 10X</li>
+            <li><b>Cursos de especialização</b> 5X</li>
+            <li><b>Realização de tarefas extras</b> 4X</li>
+            <li><b>Criação de projeto interno</b> 4X</li>
+            <li><b>Presença em eventos extra</b> 3X</li>
+          </ul>
+          <p>O saldo de XP é o total ganho menos o que já foi gasto na loja. Cada recompensa tem
+            um preço em XP e pode ter estoque limitado, limite de resgates por pessoa e faixa
+            mínima do ranking. O resgate é confirmado na hora, o XP é debitado do saldo e a
+            diretoria combina a entrega.</p>
+        </article>
+
+        <article class="reg__item" id="gam-6">
+          <h2><span class="reg__num">6</span>Penalidades</h2>
+          <p>As penalidades seguem o Regimento Interno. Faltas e atrasos são registrados pela
+            diretoria na plataforma, e cada associado acompanha os seus na aba Penalidades.</p>
+          <ul>
+            <li>3 faltas não justificadas no mesmo trimestre geram 1 advertência (item 6).</li>
+            <li>3 atrasos no mesmo bimestre geram 1 advertência (item 7).</li>
+            <li>Com 2 advertências no mandato, a Presidência pode aplicar suspensão ou
+              desligamento (item 18).</li>
+          </ul>
+        </article>
+
+        <article class="reg__item" id="gam-7">
+          <h2><span class="reg__num">7</span>Quem vê o quê</h2>
+          <p>Cada associado vê somente as próprias notas, comentários, penalidades, XP e
+            resgates. Dos colegas, aparecem apenas o pódio do mês e o cartão de Maior evolução,
+            com nome e nota do mês.</p>
+          <p>Cada diretor vê e lança os dados dos associados da sua área. A Presidência e a
+            Vice-presidência veem e lançam os dados de toda a equipe.</p>
+        </article>
+
+        <article class="reg__item" id="gam-8">
+          <h2><span class="reg__num">8</span>Histórico</h2>
+          <p>As avaliações de agosto e setembro de 2026 foram feitas no modelo anterior, com 4
+            critérios em escala de 1 a 5. Elas continuam guardadas como foram dadas e, para o
+            ranking e o gráfico de evolução, são convertidas proporcionalmente para a escala de
+            1 a 4. A partir de outubro de 2026 vale o formulário de 12 competências.</p>
+        </article>
+
+        <p class="reg__rodape">Regras da plataforma de gamificação da Saint Paul Jr ·
+          aprovadas pela Presidência e pela Vice-presidência.</p>
+      </div>
+    </div>
+  </section>
+
 </main>
 </div>
 
@@ -3722,6 +3870,8 @@ SPJ.Gestao = (function () {
 
       <div class="cartao" style="margin-top:14px"><div class="cartao__corpo">
         <p class="g-titulo2"><span class="rotulo">Parte 2 · diretoria</span> Avaliação de desempenho</p>
+        <p class="miudo" style="margin:-2px 0 8px">Discorda da nota? Você pode contestar em até 1 semana depois do lançamento, com o diretor da sua área.
+          <button type="button" class="regra-link" data-regra="#gam-4">Ver a regra</button></p>
         ${lancada ? `
           <p style="margin:8px 0 12px">Nota do mês: <b style="font-size:20px;color:var(--petroleo)">${num(media)}</b>
             ${faixa ? `<span class="miudo">· faixa ${esc(faixa.nome)}</span>` : ''}
@@ -5278,6 +5428,33 @@ function montarLogo(alvo, variante = 'auto') {
 
   $('ver-regimento').addEventListener('click', () => abrirRegimento(null));
   $('fechar-regimento').addEventListener('click', fecharRegimento);
+
+  // atalhos "como funciona" espalhados pelo painel levam ao trecho certo das regras
+  document.addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-regra]');
+    if (!b) return;
+    ev.preventDefault();
+    abrirRegimento(b.dataset.regra);
+  });
+
+  // as regras em PDF: a mesma seção, numa página limpa para imprimir
+  $('regras-pdf').addEventListener('click', () => {
+    const w = window.open('', '_blank');
+    if (!w) return;
+    const corpo = document.querySelector('#gam-corpo .cartao__corpo').innerHTML;
+    w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+      <title>Regras da gamificação · Saint Paul Jr</title><style>
+      @page { size: A4; margin: 18mm; } body { font-family: "Helvetica Neue", Arial, sans-serif; color: #0B0B0B; }
+      h1 { color: #184848; font-size: 20pt; margin: 0 0 4px; } .sub { color: #4C5757; margin: 0 0 18px; font-size: 10.5pt; }
+      .reg__item { padding: 10px 0 6px; border-bottom: 1px solid #E4E8E6; page-break-inside: avoid; }
+      .reg__item h2 { font-size: 12.5pt; color: #184848; margin: 0 0 6px; }
+      .reg__num { display: inline-block; min-width: 20px; color: #8A6C21; }
+      p, li { font-size: 10.5pt; line-height: 1.5; } .reg__rodape { color: #6A7776; font-size: 9pt; margin-top: 14px; }
+      </style></head><body><h1>Regras da gamificação</h1>
+      <p class="sub">Saint Paul Jr · plataforma de gamificação</p>${corpo}</body></html>`);
+    w.document.close();
+    setTimeout(() => { w.focus(); w.print(); }, 400);
+  });
   $('tela-regimento').querySelectorAll('.reg__indice a').forEach((a) => {
     a.addEventListener('click', (ev) => {
       ev.preventDefault();
